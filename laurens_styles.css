@@ -7,3 +7,8 @@
 #header {
   text-align: center;
 }
+
+#copyright {
+       position: absolute;
+       bottom:0; 
+ }

@@ -17,32 +17,40 @@ knitr::opts_chunk$set(echo = TRUE, comment = "")
 ***
 ## R Tutorial Activity 1: Intro to R
 ### Download R
-***
 1. R. The R Project for Statistical Computing. Available at: <https://cran.r-project.org/>  
 Select: "Download R for (Linux/macOS/Windows)" and follow the instructions.
 
 2. R Studio Desktop. Available at: <https://posit.co/download/rstudio-desktop/>  
 Scroll down to find your installer, ex: "RSTUDIO-2024.04.2-764.EXE" for Windows
-
-### Starting R
 ***
+### Starting R
 Once you have installed both R and RStudio, you will be able to start the RStudio application. The console, where you can begin to execute commands, is in the bottom left containing the `> `  
   
 Recommended Reading: The R Book, Chapter 2 "Essentials of the R Language"  
 Available [here](https://onlinelibrary-wiley-com.proxy1.lib.uwo.ca/doi/epdf/10.1002/9781118448908.ch2)
-
-### R as a Calculator
 ***
+### Keeping Your Code Clean
+It is important when sharing your code and for your own sanity to document your code well.
 ```{r}
-# The basic operations are "*, +, -, /, ^"
-# R skips any line beginning with a "#", very useful for keeping your code clean
-# R does not require a semicolon to end each line, one can still be used to combine lines for legibility
-2+3; 2*3; 2/3; 2^3; 2*(3+1)^2
-
+# R will skip any line of code that begins with a '#'
 ```
 
-### Variables
 ***
+### R as a Calculator
+```{r}
+# The basic operations are "*, +, -, /, ^"
+```
+
+
+```{r}
+2+3 
+2*3 
+2/3 
+2^3
+2*(3+1)^2
+```
+***
+### Variables
 ```{r}
 # You can store results in variables and use them in calculations.
 x = 2+3
@@ -64,9 +72,8 @@ x <- 5.412
 x
 ```
 Look [here](https://statisticsglobe.com/assignment-operators-in-r) for an explanation of the differences between "=" and "<-".
-
-### Vectors
 ***
+### Vectors
 A vector is a type of list. Often it is a list of numbers, but it can be a list of other types such as characters.
 You create vectors by using the c() function (concatenate).
 ```{r}
@@ -89,13 +96,14 @@ x = 1:40
 x
 ```
 
-
-### Functions
 ***
+### Functions
 R has all the functions you know and love. (Most of them can be used on vectors.)
 ```{r}
 # We'll start with functions numbers
-sin(1); sin(1.4); sin(3)
+sin(1)
+sin(1.4)
+sin(3)
 
 # R knows about pi
 pi
@@ -145,9 +153,8 @@ mean(Y, na.rm=FALSE)
 # Now, changing the argument to TRUE
 mean(Y, na.rm=TRUE)
 ```
-
-### Getting Help
 ***
+### Getting Help
 R and RStudio have complete documentation on all R functions. The lower right pane in RStudio has a help tab you can use. The help contains a lot of information, so you will have to learn to filter out what you don't need. Try to use the R Documentation before taking your query to your favourite search engine.
 ```{r, eval=FALSE}
 # You can also access the help directly from the console tab. This will open the R Documentation for the 'mean()' function.

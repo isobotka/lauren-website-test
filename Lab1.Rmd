@@ -1,5 +1,5 @@
 ---
-title: "Tutorial 1: Working with data"
+title: 'Tutorial 1: Working with data'
 author: "Professor Lauren Cipriano"
 date: "2024-05-05"
 output:
@@ -109,7 +109,7 @@ The data set families contains information about 43,886 families living in the c
 
 ------------------------------------------------------------------------
 
-**Character:** free text, a.k.a string\
+**Character:** free text, a.k.a. string\
 **Factor:** Categorical values; actual values may be text (North/South/East/West) or numbers (1/2/3/4)\
 **Logical:** Binary (TRUE/FALSE)\
 **Integer:** Whole numbers (1L/2L/3L/4L, the letter 'L' declares these as Integers)\

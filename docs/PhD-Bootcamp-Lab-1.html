@@ -349,7 +349,6 @@ div.tocify {
 <h2>R Tutorial Activity 1: Intro to R</h2>
 <div id="download-r" class="section level3">
 <h3>Download R</h3>
-<hr />
 <ol style="list-style-type: decimal">
 <li><p>R. The R Project for Statistical Computing. Available at: <a
 href="https://cran.r-project.org/"
@@ -360,36 +359,37 @@ instructions.</p></li>
 href="https://posit.co/download/rstudio-desktop/"
 class="uri">https://posit.co/download/rstudio-desktop/</a><br />
 Scroll down to find your installer, ex: “RSTUDIO-2024.04.2-764.EXE” for
-Windows</p></li>
+Windows *** ### Starting R Once you have installed both R and RStudio,
+you will be able to start the RStudio application. The console, where
+you can begin to execute commands, is in the bottom left containing the
+<code>&gt;</code></p></li>
 </ol>
-</div>
-<div id="starting-r" class="section level3">
-<h3>Starting R</h3>
-<hr />
-<p>Once you have installed both R and RStudio, you will be able to start
-the RStudio application. The console, where you can begin to execute
-commands, is in the bottom left containing the <code>&gt;</code></p>
 <p>Recommended Reading: The R Book, Chapter 2 “Essentials of the R
 Language”<br />
 Available <a
-href="https://onlinelibrary-wiley-com.proxy1.lib.uwo.ca/doi/epdf/10.1002/9781118448908.ch2">here</a></p>
+href="https://onlinelibrary-wiley-com.proxy1.lib.uwo.ca/doi/epdf/10.1002/9781118448908.ch2">here</a>
+*** ### Keeping Your Code Clean It is important when sharing your code
+and for your own sanity to document your code well.</p>
+<pre class="r"><code># R will skip any line of code that begins with a &#39;#&#39;</code></pre>
+<hr />
 </div>
 <div id="r-as-a-calculator" class="section level3">
 <h3>R as a Calculator</h3>
-<hr />
-<pre class="r"><code># The basic operations are &quot;*, +, -, /, ^&quot;
-# R skips any line beginning with a &quot;#&quot;, very useful for keeping your code clean
-# R does not require a semicolon to end each line, one can still be used to combine lines for legibility
-2+3; 2*3; 2/3; 2^3; 2*(3+1)^2</code></pre>
+<pre class="r"><code># The basic operations are &quot;*, +, -, /, ^&quot;</code></pre>
+<pre class="r"><code>2+3 </code></pre>
 <pre><code>[1] 5</code></pre>
+<pre class="r"><code>2*3 </code></pre>
 <pre><code>[1] 6</code></pre>
+<pre class="r"><code>2/3 </code></pre>
 <pre><code>[1] 0.6666667</code></pre>
+<pre class="r"><code>2^3</code></pre>
 <pre><code>[1] 8</code></pre>
+<pre class="r"><code>2*(3+1)^2</code></pre>
 <pre><code>[1] 32</code></pre>
+<hr />
 </div>
 <div id="variables" class="section level3">
 <h3>Variables</h3>
-<hr />
 <pre class="r"><code># You can store results in variables and use them in calculations.
 x = 2+3
 
@@ -411,14 +411,10 @@ x</code></pre>
 <pre><code>[1] 5.412</code></pre>
 <p>Look <a
 href="https://statisticsglobe.com/assignment-operators-in-r">here</a>
-for an explanation of the differences between “=” and “&lt;-”.</p>
-</div>
-<div id="vectors" class="section level3">
-<h3>Vectors</h3>
-<hr />
-<p>A vector is a type of list. Often it is a list of numbers, but it can
-be a list of other types such as characters. You create vectors by using
-the c() function (concatenate).</p>
+for an explanation of the differences between “=” and “&lt;-”. *** ###
+Vectors A vector is a type of list. Often it is a list of numbers, but
+it can be a list of other types such as characters. You create vectors
+by using the c() function (concatenate).</p>
 <pre class="r"><code># A vector with 4 entries
 c(1, 2, 3, 4)</code></pre>
 <pre><code>[1] 1 2 3 4</code></pre>
@@ -440,16 +436,18 @@ x = 1:40
 x</code></pre>
 <pre><code> [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
 [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40</code></pre>
+<hr />
 </div>
 <div id="functions" class="section level3">
 <h3>Functions</h3>
-<hr />
 <p>R has all the functions you know and love. (Most of them can be used
 on vectors.)</p>
 <pre class="r"><code># We&#39;ll start with functions numbers
-sin(1); sin(1.4); sin(3)</code></pre>
+sin(1)</code></pre>
 <pre><code>[1] 0.841471</code></pre>
+<pre class="r"><code>sin(1.4)</code></pre>
 <pre><code>[1] 0.9854497</code></pre>
+<pre class="r"><code>sin(3)</code></pre>
 <pre><code>[1] 0.14112</code></pre>
 <pre class="r"><code># R knows about pi
 pi</code></pre>
@@ -497,10 +495,10 @@ mean(Y, na.rm=FALSE)     </code></pre>
 <pre class="r"><code># Now, changing the argument to TRUE
 mean(Y, na.rm=TRUE)</code></pre>
 <pre><code>[1] 5.142857</code></pre>
+<hr />
 </div>
 <div id="getting-help" class="section level3">
 <h3>Getting Help</h3>
-<hr />
 <p>R and RStudio have complete documentation on all R functions. The
 lower right pane in RStudio has a help tab you can use. The help
 contains a lot of information, so you will have to learn to filter out
@@ -513,7 +511,7 @@ help(mean)
 </div>
 </div>
 
-<p>Copyright &copy; 2024 Lauren Cipriano <p>
+<p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p>
 
 
 </div>
