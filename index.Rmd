@@ -1,0 +1,7 @@
+---
+title: "This is the homepage of Lauren's Textbook"
+author: "Ian"
+date: "`r Sys.Date()`"
+output: html_document
+---
+

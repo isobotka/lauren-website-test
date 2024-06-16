@@ -1,0 +1,7 @@
+name: "laurens-website"
+output:
+  html_document:
+    theme: united
+    include:
+      after_body: footer.html
+    css: laurens_styles.css

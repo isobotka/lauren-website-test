@@ -1,0 +1,172 @@
+---
+title: "Tutorial 1: Working with data"
+author: "Professor Lauren Cipriano"
+date: "2024-05-05"
+output:
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+css: laurens_styles.css
+---
+
+```{r, include=FALSE}
+# Setting default options for each chunk of code
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## Part 1. Starting with Data
+
+### Step 1. Import the datafile
+
+------------------------------------------------------------------------
+
+You can import data into R using the import wizard, but often it is useful to change the working directory and import the data file using a line of code.
+
+One advantage of using a code line to import your data is that it is easily reproducible.
+
+```{r, eval=FALSE, echo=FALSE}
+setwd("/home/ian/Documents/GitHub/Cloud-Folder/Lauren-Work/Lauren Rmarkdown")
+```
+
+```{r, eval=FALSE}
+# Set the working directory
+setwd("C:/Users/Lauren/Dropbox/Ivey/2024 MSc Statistics/Labs/")
+```
+
+```{r}
+# Import the data - as a csv file
+data = read.csv("datasets/families.csv")
+```
+
+### Step 2. View your data
+
+------------------------------------------------------------------------
+
+```{r, eval=FALSE}
+## Option 1. Open the dataset in another window.  It will look like a spreadsheet
+View(data)
+```
+
+```{r, eval=FALSE}
+## Option 2. Call the dataset to print it in the coding window
+data
+```
+
+```{r}
+## Option 3. Ask to see a section of the data 
+# just the first 6 rows 
+head(data)
+
+# just the last 6 rows 
+tail(data)
+```
+
+### Step 3. Quick report on data
+
+------------------------------------------------------------------------
+
+It is important to know how R sees each of your variables. Asking for a summary of the data will provide summary statistics on the data.frame.
+
+```{r}
+summary(data)
+```
+
+#### Step 3a. Deeper Description of Data
+
+The data set families contains information about 43,886 families living in the city of Cyberville. The city has four regions. In these exercises, we will learn about the families of Cyberville by using sampling. For each family, the following information is recorded:
+
+1.  Family type\
+    **1:** Husband-wife family **2:** Male-head family **3:** Female-head family\
+2.  Number of persons in family\
+3.  Number of children in family\
+4.  Family income\
+5.  Region\
+    **1:** North (10,149 families) **2:** East (10,390) **3:** South (13,457) **4:** West (9,890)\
+6.  Education\
+    31: Less than 1st grade\
+    32: 1st, 2nd, 3rd, or 4th grade\
+    33: 5th or 6th grade\
+    34: 7th or 8th grade\
+    35: 9th grade\
+    36: 10th grade\
+    37: 11th grade\
+    38: 12th grade, no diploma\
+    39: High school graduate, high school diploma, or equivalent\
+    40: Some college but no degree\
+    41: Associate degree in college (occupation/vocation program)\
+    42: Associate degree in college (academic program)\
+    43: Bachelor's degree (e.g., B.S., B.A., A.B.)\
+    44: Master's degree (e.g., M.S., M.A., M.B.A.)\
+    45: Professional school degree (e.g., M.D., D.D.S., D.V.M., LL.B., J.D.)\
+    46: Doctoral degree (e.g. Ph.D., Ed.D.)
+
+### Step 4. Assign appropriate variable types
+
+------------------------------------------------------------------------
+
+**Character:** free text, a.k.a string\
+**Factor:** Categorical values; actual values may be text (North/South/East/West) or numbers (1/2/3/4)\
+**Logical:** Binary (TRUE/FALSE)\
+**Integer:** Whole numbers (1L/2L/3L/4L, the letter 'L' declares these as Integers)\
+**Numeric:** Decimal Numbers (1.5/2.5/3.5/4.5)
+
+#### Step 4a. Investigating types
+
+```{r}
+# Check the variable class of TYPE
+class(data$TYPE)
+
+# See how many unique values TYPE has
+unique(data$TYPE)
+
+# Tell R that the TYPE column can only have 3 possible values (turn it into a factor)
+data$TYPE = factor(data$TYPE, levels = c(1,2,3))
+
+# Now check the class of TYPE
+class(data$TYPE)
+
+# If we try to assign an invalid value to row 1, column "TYPE"
+data[1, "TYPE"] = 4
+
+# Warning: this assigns the value as NA, but lets you know you've made a mistake
+data[1, "TYPE"]
+
+# Change it back to integer
+data$TYPE = as.integer(data$TYPE)
+
+class(data$TYPE)
+
+# Fixing NA from above
+data = read.csv("datasets/families.csv")
+```
+
+#### Step 4b. Assigning New Types
+
+```{r}
+# Turning TYPE into a factor with easy-to-understand labels
+data$TYPE = factor(data$TYPE, levels = c(1,2,3), labels = c("Husband-wife family",
+                                                            "Male-head family",
+                                                            "Female-head family"))
+
+# Number of persons and children, and income are already integers
+class(data$PERSONS); class(data$CHILDREN); class(data$INCOME)
+
+# Turn REGION into a factor
+data$REGION = factor(data$REGION, levels = c(1,2,3,4), label = c("NORTH",
+                                                                 "EAST",
+                                                                 "SOUTH",
+                                                                 "WEST"))
+
+# New factor for education
+
+# Turn Education Level into a factor, might have not been worth it...
+data$EDUCATION = factor(data$EDUCATION, levels = c(31:46), label = c("<1st grade", "1-4th grade", "5,6th grade", "7,8th grade", "9th grade", "10th grade", "11th grade", "12th grade, no diploma", "High school graduate or equivalent", "Some college but no degree", "Associate degree in college (occupation/vocation program)", "Associate degree in college (academic program)", "Bachelor's Degree", "Master's Degree", "Professional School Degree", "Doctoral Degree"))
+
+# Now we can view the summary of our data again
+summary(data)
+```

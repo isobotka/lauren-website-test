@@ -1,0 +1,9 @@
+/* Making comments within R code in the notebook more visible */
+.hljs-comment {
+  color: #008080
+}
+
+/* Centering header information (title, author etc.) */
+#header {
+  text-align: center;
+}
