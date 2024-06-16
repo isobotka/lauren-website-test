@@ -359,18 +359,33 @@ instructions.</p></li>
 href="https://posit.co/download/rstudio-desktop/"
 class="uri">https://posit.co/download/rstudio-desktop/</a><br />
 Scroll down to find your installer, ex: “RSTUDIO-2024.04.2-764.EXE” for
-Windows *** ### Starting R Once you have installed both R and RStudio,
-you will be able to start the RStudio application. The console, where
-you can begin to execute commands, is in the bottom left containing the
-<code>&gt;</code></p></li>
+Windows</p></li>
 </ol>
+<hr />
+</div>
+<div id="starting-r" class="section level3">
+<h3>Starting R</h3>
+<p>Once you have installed both R and RStudio, you will be able to start
+the RStudio application. The console, where you can begin to execute
+commands, is in the bottom left containing the <code>&gt;</code></p>
 <p>Recommended Reading: The R Book, Chapter 2 “Essentials of the R
 Language”<br />
 Available <a
-href="https://onlinelibrary-wiley-com.proxy1.lib.uwo.ca/doi/epdf/10.1002/9781118448908.ch2">here</a>
-*** ### Keeping Your Code Clean It is important when sharing your code
-and for your own sanity to document your code well.</p>
-<pre class="r"><code># R will skip any line of code that begins with a &#39;#&#39;</code></pre>
+href="https://onlinelibrary-wiley-com.proxy1.lib.uwo.ca/doi/epdf/10.1002/9781118448908.ch2">here</a></p>
+<hr />
+</div>
+<div id="keeping-your-code-clean" class="section level3">
+<h3>Keeping Your Code Clean</h3>
+<p>It is important when sharing your code and for your own sanity to
+document your code well.</p>
+<pre class="r"><code># R will skip any line of code that begins with a &#39;#&#39;
+x = 5
+# x = 4
+x</code></pre>
+<pre><code>[1] 5</code></pre>
+<pre class="r"><code>x = 4
+x</code></pre>
+<pre><code>[1] 4</code></pre>
 <hr />
 </div>
 <div id="r-as-a-calculator" class="section level3">
@@ -411,10 +426,14 @@ x</code></pre>
 <pre><code>[1] 5.412</code></pre>
 <p>Look <a
 href="https://statisticsglobe.com/assignment-operators-in-r">here</a>
-for an explanation of the differences between “=” and “&lt;-”. *** ###
-Vectors A vector is a type of list. Often it is a list of numbers, but
-it can be a list of other types such as characters. You create vectors
-by using the c() function (concatenate).</p>
+for an explanation of the differences between “=” and “&lt;-”.</p>
+<hr />
+</div>
+<div id="vectors" class="section level3">
+<h3>Vectors</h3>
+<p>A vector is a type of list. Often it is a list of numbers, but it can
+be a list of other types such as characters. You create vectors by using
+the c() function (concatenate).</p>
 <pre class="r"><code># A vector with 4 entries
 c(1, 2, 3, 4)</code></pre>
 <pre><code>[1] 1 2 3 4</code></pre>
@@ -484,7 +503,7 @@ sum(1:1024)</code></pre>
 <pre><code>[1] 524800</code></pre>
 <pre class="r"><code># Functions can have required and optional variables that must be passed through
 # For example, the function &#39;mean&#39; is described this way:</code></pre>
-<p><img src="Images/mean-rdocs.png" /></p>
+<p><img src="images/mean-rdocs.png" /></p>
 <pre class="r"><code># If the data in the vector Y includes NA the default mean function doesn’t work properly
 Y &lt;- c(1, 2, 3, NA, 5, 6, NA, 9, 10, NA)
 mean(Y)</code></pre>
