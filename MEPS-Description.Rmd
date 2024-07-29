@@ -7,9 +7,9 @@ output:
 
 ```{r, child="_Global-Options.Rmd"}
 ```
-
+***
+***
 ### US Medical Expenditure Panel Survey (MEPS)
-
 ```{r}
 tempData = read.csv("datasets/mepsData.csv")
 

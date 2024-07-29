@@ -7,7 +7,8 @@ output:
 
 ```{r, child="_Global-Options.Rmd"}
 ```
-
+***
+***
 Below you will find links to the case data files.  
 
 * You can link to .TXT files directly using the url  

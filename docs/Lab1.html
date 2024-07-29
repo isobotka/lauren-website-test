@@ -367,22 +367,22 @@ data</code></pre>
 <pre class="r"><code>## Option 3. Ask to see a section of the data 
 # just the first 6 rows 
 head(data)</code></pre>
-<pre><code>##   TYPE PERSONS CHILDREN INCOME REGION EDUCATION
-## 1    1       2        0  43450      1        39
-## 2    1       2        0  79000      1        40
-## 3    1       2        0  51306      1        39
-## 4    1       4        2  24850      1        41
-## 5    1       4        2  65145      1        43
-## 6    3       3        2  23015      1        40</code></pre>
+<pre><code>&gt;   TYPE PERSONS CHILDREN INCOME REGION EDUCATION
+&gt; 1    1       2        0  43450      1        39
+&gt; 2    1       2        0  79000      1        40
+&gt; 3    1       2        0  51306      1        39
+&gt; 4    1       4        2  24850      1        41
+&gt; 5    1       4        2  65145      1        43
+&gt; 6    3       3        2  23015      1        40</code></pre>
 <pre class="r"><code># just the last 6 rows 
 tail(data)</code></pre>
-<pre><code>##       TYPE PERSONS CHILDREN INCOME REGION EDUCATION
-## 43881    1       5        2  47264      4        41
-## 43882    1       5        3  30800      4        36
-## 43883    1       2        0  16684      4        34
-## 43884    1       2        0  12000      4        39
-## 43885    1       2        0  50022      4        34
-## 43886    1       9        7  21082      4        39</code></pre>
+<pre><code>&gt;       TYPE PERSONS CHILDREN INCOME REGION EDUCATION
+&gt; 43881    1       5        2  47264      4        41
+&gt; 43882    1       5        3  30800      4        36
+&gt; 43883    1       2        0  16684      4        34
+&gt; 43884    1       2        0  12000      4        39
+&gt; 43885    1       2        0  50022      4        34
+&gt; 43886    1       9        7  21082      4        39</code></pre>
 </div>
 <div id="step-3.-quick-report-on-data" class="section level3">
 <h3>Step 3. Quick report on data</h3>
@@ -391,20 +391,20 @@ tail(data)</code></pre>
 a summary of the data will provide summary statistics on the
 data.frame.</p>
 <pre class="r"><code>summary(data)</code></pre>
-<pre><code>##       TYPE          PERSONS          CHILDREN          INCOME      
-##  Min.   :1.000   Min.   : 2.000   Min.   :0.0000   Min.   :-22166  
-##  1st Qu.:1.000   1st Qu.: 2.000   1st Qu.:0.0000   1st Qu.: 18300  
-##  Median :1.000   Median : 3.000   Median :1.0000   Median : 34550  
-##  Mean   :1.431   Mean   : 3.137   Mean   :0.9479   Mean   : 41336  
-##  3rd Qu.:1.000   3rd Qu.: 4.000   3rd Qu.:2.0000   3rd Qu.: 55828  
-##  Max.   :3.000   Max.   :25.000   Max.   :9.0000   Max.   :451887  
-##      REGION        EDUCATION    
-##  Min.   :1.000   Min.   :31.00  
-##  1st Qu.:2.000   1st Qu.:39.00  
-##  Median :3.000   Median :39.00  
-##  Mean   :2.526   Mean   :39.42  
-##  3rd Qu.:3.000   3rd Qu.:41.00  
-##  Max.   :4.000   Max.   :46.00</code></pre>
+<pre><code>&gt;       TYPE          PERSONS          CHILDREN          INCOME      
+&gt;  Min.   :1.000   Min.   : 2.000   Min.   :0.0000   Min.   :-22166  
+&gt;  1st Qu.:1.000   1st Qu.: 2.000   1st Qu.:0.0000   1st Qu.: 18300  
+&gt;  Median :1.000   Median : 3.000   Median :1.0000   Median : 34550  
+&gt;  Mean   :1.431   Mean   : 3.137   Mean   :0.9479   Mean   : 41336  
+&gt;  3rd Qu.:1.000   3rd Qu.: 4.000   3rd Qu.:2.0000   3rd Qu.: 55828  
+&gt;  Max.   :3.000   Max.   :25.000   Max.   :9.0000   Max.   :451887  
+&gt;      REGION        EDUCATION    
+&gt;  Min.   :1.000   Min.   :31.00  
+&gt;  1st Qu.:2.000   1st Qu.:39.00  
+&gt;  Median :3.000   Median :39.00  
+&gt;  Mean   :2.526   Mean   :39.42  
+&gt;  3rd Qu.:3.000   3rd Qu.:41.00  
+&gt;  Max.   :4.000   Max.   :46.00</code></pre>
 </div>
 <div id="step-4.-assign-appropriate-variable-types"
 class="section level3">
@@ -421,29 +421,29 @@ declares these as Integers)<br />
 <h4>Step 4a. Investigating types</h4>
 <pre class="r"><code># Check the variable class of TYPE
 class(data$TYPE)</code></pre>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre><code>&gt; [1] &quot;integer&quot;</code></pre>
 <pre class="r"><code># See how many unique values TYPE has
 unique(data$TYPE)</code></pre>
-<pre><code>## [1] 1 3 2</code></pre>
+<pre><code>&gt; [1] 1 3 2</code></pre>
 <pre class="r"><code># Tell R that the TYPE column can only have 3 possible values (turn it into a factor)
 data$TYPE = factor(data$TYPE, levels = c(1,2,3))
 
 # Now check the class of TYPE
 class(data$TYPE)</code></pre>
-<pre><code>## [1] &quot;factor&quot;</code></pre>
+<pre><code>&gt; [1] &quot;factor&quot;</code></pre>
 <pre class="r"><code># If we try to assign an invalid value to row 1, column &quot;TYPE&quot;
 data[1, &quot;TYPE&quot;] = 4</code></pre>
-<pre><code>## Warning in `[&lt;-.factor`(`*tmp*`, iseq, value = 4): invalid factor level, NA
-## generated</code></pre>
+<pre><code>&gt; Warning in `[&lt;-.factor`(`*tmp*`, iseq, value = 4): invalid factor level, NA
+&gt; generated</code></pre>
 <pre class="r"><code># Warning: this assigns the value as NA, but lets you know you&#39;ve made a mistake
 data[1, &quot;TYPE&quot;]</code></pre>
-<pre><code>## [1] &lt;NA&gt;
-## Levels: 1 2 3</code></pre>
+<pre><code>&gt; [1] &lt;NA&gt;
+&gt; Levels: 1 2 3</code></pre>
 <pre class="r"><code># Change it back to integer
 data$TYPE = as.integer(data$TYPE)
 
 class(data$TYPE)</code></pre>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre><code>&gt; [1] &quot;integer&quot;</code></pre>
 <pre class="r"><code># Fixing NA from above
 data = read.csv(&quot;datasets/families.csv&quot;)</code></pre>
 </div>
@@ -456,9 +456,9 @@ data$TYPE = factor(data$TYPE, levels = c(1,2,3), labels = c(&quot;Husband-wife f
 
 # Number of persons and children, and income are already integers
 class(data$PERSONS); class(data$CHILDREN); class(data$INCOME)</code></pre>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre><code>&gt; [1] &quot;integer&quot;</code></pre>
+<pre><code>&gt; [1] &quot;integer&quot;</code></pre>
+<pre><code>&gt; [1] &quot;integer&quot;</code></pre>
 <pre class="r"><code># Turn REGION into a factor
 data$REGION = factor(data$REGION, levels = c(1,2,3,4), label = c(&quot;NORTH&quot;,
                                                                  &quot;EAST&quot;,
@@ -472,20 +472,20 @@ data$REGION = factor(data$REGION, levels = c(1,2,3,4), label = c(&quot;NORTH&quo
 
 # Now we can view the summary of our data again
 summary(data)</code></pre>
-<pre><code>##                   TYPE          PERSONS          CHILDREN          INCOME      
-##  Husband-wife family:33403   Min.   : 2.000   Min.   :0.0000   Min.   :-22166  
-##  Male-head family   : 2054   1st Qu.: 2.000   1st Qu.:0.0000   1st Qu.: 18300  
-##  Female-head family : 8429   Median : 3.000   Median :1.0000   Median : 34550  
-##                              Mean   : 3.137   Mean   :0.9479   Mean   : 41336  
-##                              3rd Qu.: 4.000   3rd Qu.:2.0000   3rd Qu.: 55828  
-##                              Max.   :25.000   Max.   :9.0000   Max.   :451887  
-##    REGION        EDUCATION    
-##  NORTH:10149   Min.   :31.00  
-##  EAST :10390   1st Qu.:39.00  
-##  SOUTH:13457   Median :39.00  
-##  WEST : 9890   Mean   :39.42  
-##                3rd Qu.:41.00  
-##                Max.   :46.00</code></pre>
+<pre><code>&gt;                   TYPE          PERSONS          CHILDREN          INCOME      
+&gt;  Husband-wife family:33403   Min.   : 2.000   Min.   :0.0000   Min.   :-22166  
+&gt;  Male-head family   : 2054   1st Qu.: 2.000   1st Qu.:0.0000   1st Qu.: 18300  
+&gt;  Female-head family : 8429   Median : 3.000   Median :1.0000   Median : 34550  
+&gt;                              Mean   : 3.137   Mean   :0.9479   Mean   : 41336  
+&gt;                              3rd Qu.: 4.000   3rd Qu.:2.0000   3rd Qu.: 55828  
+&gt;                              Max.   :25.000   Max.   :9.0000   Max.   :451887  
+&gt;    REGION        EDUCATION    
+&gt;  NORTH:10149   Min.   :31.00  
+&gt;  EAST :10390   1st Qu.:39.00  
+&gt;  SOUTH:13457   Median :39.00  
+&gt;  WEST : 9890   Mean   :39.42  
+&gt;                3rd Qu.:41.00  
+&gt;                Max.   :46.00</code></pre>
 <hr />
 </div>
 </div>
@@ -507,7 +507,7 @@ n_female_fam = nrow(data[indices,])
 # Calculating the proportion
 prop_female_fam = n_female_fam/n_fam
 prop_female_fam</code></pre>
-<pre><code>## [1] 0.1920658</code></pre>
+<pre><code>&gt; [1] 0.1920658</code></pre>
 </div>
 <div id="b-average-number-of-children-per-family"
 class="section level4">
@@ -518,17 +518,17 @@ n_total_children = sum(data$CHILDREN)
 # Recall we have n_total_fam from a)
 avg_n_children = n_total_children/n_fam
 avg_n_children</code></pre>
-<pre><code>## [1] 0.9479333</code></pre>
+<pre><code>&gt; [1] 0.9479333</code></pre>
 <pre class="r"><code># or...
 mean(data$CHILDREN)</code></pre>
-<pre><code>## [1] 0.9479333</code></pre>
+<pre><code>&gt; [1] 0.9479333</code></pre>
 </div>
 <div id="c-standard-deviation-of-the-number-of-children-per-family"
 class="section level4">
 <h4>c) Standard deviation of the number of children per family</h4>
 <pre class="r"><code># R has a function for that!
 sd(data$CHILDREN)</code></pre>
-<pre><code>## [1] 1.157211</code></pre>
+<pre><code>&gt; [1] 1.157211</code></pre>
 </div>
 <div
 id="d-proportion-of-heads-of-household-who-did-not-receive-a-high-school-diploma"
@@ -546,7 +546,7 @@ n_no_diploma = nrow(data[indices,])
 # Finding the proportion
 prop_no_diploma = n_no_diploma/n_fam
 prop_no_diploma</code></pre>
-<pre><code>## [1] 0.2115025</code></pre>
+<pre><code>&gt; [1] 0.2115025</code></pre>
 </div>
 <div
 id="e-proportion-of-families-whos-head-received-a-bachelors-or-masters-degree-and-have-one-child"
@@ -560,7 +560,7 @@ n_fam_of_interest = nrow(data[indices,])
 
 prop_fam_of_interest = n_fam_of_interest/n_fam
 prop_fam_of_interest</code></pre>
-<pre><code>## [1] 0.03707333</code></pre>
+<pre><code>&gt; [1] 0.03707333</code></pre>
 </div>
 </div>
 </div>

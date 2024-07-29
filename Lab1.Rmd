@@ -10,15 +10,10 @@ output:
 css: laurens_styles.css
 ---
 
-```{r, include=FALSE}
-# Setting default options for each chunk of code
-knitr::opts_chunk$set(echo = TRUE)
+```{r, child="_Global-Options.Rmd"}
 ```
-
-------------------------------------------------------------------------
-
-------------------------------------------------------------------------
-
+***
+***
 ## Part 1. Starting with Data
 
 ### Step 1. Import the datafile

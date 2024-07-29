@@ -1,6 +1,9 @@
 ---
-title: "This is the homepage of Lauren's Textbook"
+title: "Homepage of Lauren's Textbook"
 output: html_document
 ---
-
+```{r, child="_Global-Options.Rmd"}
+```
+***
+***
 Click the hamburger menu or a link above!
