@@ -322,12 +322,8 @@ div.tocify {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><a href="index.html">Home</a></li>
-        <li><a href="dataset-descriptions.html">Dataset Descriptions</a></li>
-        <li><a href="Lab1.html">Lab 1</a></li>
-        <li><a href="PhD-Bootcamp-Lab-1.html">PhD Bootcamp Lab 1</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="https://github.com">GitHub</a></li>
+        <li><a href="Datasets-Home.html">Datasets</a></li>
+        <li><a href="Intro-To-Coding-R.html">Intro to Coding and R</a></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -472,7 +468,7 @@ data$REGION = factor(data$REGION, levels = c(1,2,3,4), label = c(&quot;NORTH&quo
 # New factor for education
 
 # Turn Education Level into a factor, might have not been worth it...
-data$EDUCATION = factor(data$EDUCATION, levels = c(31:46), label = c(&quot;&lt;1st grade&quot;, &quot;1-4th grade&quot;, &quot;5,6th grade&quot;, &quot;7,8th grade&quot;, &quot;9th grade&quot;, &quot;10th grade&quot;, &quot;11th grade&quot;, &quot;12th grade, no diploma&quot;, &quot;High school graduate or equivalent&quot;, &quot;Some college but no degree&quot;, &quot;Associate degree in college (occupation/vocation program)&quot;, &quot;Associate degree in college (academic program)&quot;, &quot;Bachelor&#39;s Degree&quot;, &quot;Master&#39;s Degree&quot;, &quot;Professional School Degree&quot;, &quot;Doctoral Degree&quot;))
+#data$EDUCATION = factor(data$EDUCATION, levels = c(31:46), label = c(&quot;&lt;1st grade&quot;, &quot;1-4th grade&quot;, &quot;5,6th grade&quot;, &quot;7,8th grade&quot;, &quot;9th grade&quot;, &quot;10th grade&quot;, &quot;11th grade&quot;, &quot;12th grade, no diploma&quot;, &quot;High school graduate or equivalent&quot;, &quot;Some college but no degree&quot;, &quot;Associate degree in college (occupation/vocation program)&quot;, &quot;Associate degree in college (academic program)&quot;, &quot;Bachelor&#39;s Degree&quot;, &quot;Master&#39;s Degree&quot;, &quot;Professional School Degree&quot;, &quot;Doctoral Degree&quot;))
 
 # Now we can view the summary of our data again
 summary(data)</code></pre>
@@ -483,28 +479,93 @@ summary(data)</code></pre>
 ##                              Mean   : 3.137   Mean   :0.9479   Mean   : 41336  
 ##                              3rd Qu.: 4.000   3rd Qu.:2.0000   3rd Qu.: 55828  
 ##                              Max.   :25.000   Max.   :9.0000   Max.   :451887  
-##                                                                                
-##    REGION     
-##  NORTH:10149  
-##  EAST :10390  
-##  SOUTH:13457  
-##  WEST : 9890  
-##               
-##               
-##               
-##                                                      EDUCATION    
-##  High school graduate or equivalent                       :15068  
-##  Some college but no degree                               : 7536  
-##  Bachelor&#39;s Degree                                        : 5812  
-##  7,8th grade                                              : 2306  
-##  Master&#39;s Degree                                          : 2242  
-##  Associate degree in college (occupation/vocation program): 1651  
-##  (Other)                                                  : 9271</code></pre>
+##    REGION        EDUCATION    
+##  NORTH:10149   Min.   :31.00  
+##  EAST :10390   1st Qu.:39.00  
+##  SOUTH:13457   Median :39.00  
+##  WEST : 9890   Mean   :39.42  
+##                3rd Qu.:41.00  
+##                Max.   :46.00</code></pre>
+<hr />
+</div>
+</div>
+</div>
+<div id="part-2.-analyzing-data" class="section level2">
+<h2>Part 2. Analyzing Data</h2>
+<div id="step-1.-some-summary-statistics" class="section level3">
+<h3>Step 1. Some Summary Statistics</h3>
+<div id="a-proportion-of-female-headed-families" class="section level4">
+<h4>a) Proportion of female-headed families</h4>
+<pre class="r"><code># Number of Families in the dataset
+n_fam = nrow(data)
+
+# The which function returns a vector that tells us which indices of a matrix are true given a condition, in this case female-headed
+indices = which(data$TYPE==&quot;Female-head family&quot;)
+
+n_female_fam = nrow(data[indices,])
+
+# Calculating the proportion
+prop_female_fam = n_female_fam/n_fam
+prop_female_fam</code></pre>
+<pre><code>## [1] 0.1920658</code></pre>
+</div>
+<div id="b-average-number-of-children-per-family"
+class="section level4">
+<h4>b) Average number of children per family</h4>
+<pre class="r"><code># Total Number of children in all families
+n_total_children = sum(data$CHILDREN)
+
+# Recall we have n_total_fam from a)
+avg_n_children = n_total_children/n_fam
+avg_n_children</code></pre>
+<pre><code>## [1] 0.9479333</code></pre>
+<pre class="r"><code># or...
+mean(data$CHILDREN)</code></pre>
+<pre><code>## [1] 0.9479333</code></pre>
+</div>
+<div id="c-standard-deviation-of-the-number-of-children-per-family"
+class="section level4">
+<h4>c) Standard deviation of the number of children per family</h4>
+<pre class="r"><code># R has a function for that!
+sd(data$CHILDREN)</code></pre>
+<pre><code>## [1] 1.157211</code></pre>
+</div>
+<div
+id="d-proportion-of-heads-of-household-who-did-not-receive-a-high-school-diploma"
+class="section level4">
+<h4>d) Proportion of heads of household who did not receive a high
+school diploma</h4>
+<p>First we must look at our EDUCATION variable to see that any value
+coded below 39 means that no diploma was received</p>
+<pre class="r"><code># Using the which function again (note this will overwrite our previous indices variable since we chose the same name)
+indices = which(data$EDUCATION&lt;39)
+
+# Counting the rows
+n_no_diploma = nrow(data[indices,])
+
+# Finding the proportion
+prop_no_diploma = n_no_diploma/n_fam
+prop_no_diploma</code></pre>
+<pre><code>## [1] 0.2115025</code></pre>
+</div>
+<div
+id="e-proportion-of-families-whos-head-received-a-bachelors-or-masters-degree-and-have-one-child"
+class="section level4">
+<h4>e) Proportion of families whos head received a bachelor’s or
+master’s degree and have one child</h4>
+<pre class="r"><code># This time, we will combine multiple arguments in the which function using logical operators (| = OR, &amp; = AND, ! = NOT)
+indices = which((data$EDUCATION==43 | data$EDUCATION==44) &amp; data$CHILDREN==1)
+
+n_fam_of_interest = nrow(data[indices,])
+
+prop_fam_of_interest = n_fam_of_interest/n_fam
+prop_fam_of_interest</code></pre>
+<pre><code>## [1] 0.03707333</code></pre>
 </div>
 </div>
 </div>
 
-<p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p>
+<!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
 
 
 </div>

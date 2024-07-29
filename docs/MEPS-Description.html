@@ -11,7 +11,7 @@
 
 
 
-<title>This is the homepage of Lauren’s Textbook</title>
+<title>MEPS Description</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -255,13 +255,137 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">This is the homepage of Lauren’s
-Textbook</h1>
+<h1 class="title toc-ignore">MEPS Description</h1>
 
 </div>
 
 
-<p>Click the hamburger menu or a link above!</p>
+<div id="us-medical-expenditure-panel-survey-meps"
+class="section level3">
+<h3>US Medical Expenditure Panel Survey (MEPS)</h3>
+<pre class="r"><code>tempData = read.csv(&quot;datasets/mepsData.csv&quot;)
+
+summary(tempData)</code></pre>
+<pre><code>&gt;   Observation      Person_ID         FluVaccination       Age       
+&gt;  Min.   :    1   Min.   :2.290e+09   Min.   :0.000   Min.   : 0.00  
+&gt;  1st Qu.: 7616   1st Qu.:2.295e+09   1st Qu.:0.000   1st Qu.:18.00  
+&gt;  Median :15231   Median :2.320e+09   Median :0.000   Median :38.00  
+&gt;  Mean   :15231   Mean   :2.310e+09   Mean   :0.429   Mean   :39.07  
+&gt;  3rd Qu.:22846   3rd Qu.:2.325e+09   3rd Qu.:1.000   3rd Qu.:59.00  
+&gt;  Max.   :30461   Max.   :2.330e+09   Max.   :1.000   Max.   :85.00  
+&gt;                                      NA&#39;s   :11290   NA&#39;s   :375    
+&gt;       Sex         RaceEthnicity   HealthInsurance NotAffordHealthCare
+&gt;  Min.   :0.0000   Min.   :1.000   Min.   :1.000   Min.   :0.0000     
+&gt;  1st Qu.:0.0000   1st Qu.:2.000   1st Qu.:1.000   1st Qu.:0.0000     
+&gt;  Median :0.0000   Median :2.000   Median :1.000   Median :0.0000     
+&gt;  Mean   :0.4791   Mean   :2.131   Mean   :1.482   Mean   :0.0473     
+&gt;  3rd Qu.:1.0000   3rd Qu.:2.000   3rd Qu.:2.000   3rd Qu.:0.0000     
+&gt;  Max.   :1.0000   Max.   :5.000   Max.   :3.000   Max.   :1.0000     
+&gt;                                                   NA&#39;s   :599        
+&gt;  FamIncome_Continuous  MentalHealth   FamIncome_Categorical
+&gt;  Min.   :     0       Min.   :1.000   Min.   :1.000        
+&gt;  1st Qu.: 26895       1st Qu.:1.000   1st Qu.:3.000        
+&gt;  Median : 56532       Median :2.000   Median :4.000        
+&gt;  Mean   : 75267       Mean   :2.044   Mean   :3.552        
+&gt;  3rd Qu.:103882       3rd Qu.:3.000   3rd Qu.:5.000        
+&gt;  Max.   :583219       Max.   :5.000   Max.   :5.000        
+&gt;  NA&#39;s   :14           NA&#39;s   :536                          
+&gt;  FamIncome_PercentPoverty  HealthStatus    HaveProvider     CensusRegion  
+&gt;  Min.   :   0.0           Min.   :1.000   Min.   :0.0000   Min.   :1.000  
+&gt;  1st Qu.: 137.7           1st Qu.:1.000   1st Qu.:1.0000   1st Qu.:2.000  
+&gt;  Median : 270.9           Median :2.000   Median :1.0000   Median :3.000  
+&gt;  Mean   : 365.4           Mean   :2.222   Mean   :0.7732   Mean   :2.734  
+&gt;  3rd Qu.: 494.1           3rd Qu.:3.000   3rd Qu.:1.0000   3rd Qu.:3.000  
+&gt;  Max.   :3020.2           Max.   :5.000   Max.   :1.0000   Max.   :4.000  
+&gt;  NA&#39;s   :14               NA&#39;s   :530     NA&#39;s   :1423     NA&#39;s   :375    
+&gt;  TotalHealthExpenditure HasHypertension  HasDiabetes           BMI       
+&gt;  Min.   :     0         Min.   :0.000   Min.   :0.00000   Min.   : 0.10  
+&gt;  1st Qu.:   213         1st Qu.:0.000   1st Qu.:0.00000   1st Qu.:23.70  
+&gt;  Median :  1179         Median :0.000   Median :0.00000   Median :27.30  
+&gt;  Mean   :  6094         Mean   :0.348   Mean   :0.09541   Mean   :28.15  
+&gt;  3rd Qu.:  4903         3rd Qu.:1.000   3rd Qu.:0.00000   3rd Qu.:31.90  
+&gt;  Max.   :807611         Max.   :1.000   Max.   :1.00000   Max.   :71.10  
+&gt;                         NA&#39;s   :7725    NA&#39;s   :202       NA&#39;s   :12209</code></pre>
+<p>The data set mepsData is a longitudinal study which surveys and
+measures a particular group of people over time. In the case of MEPS,
+each household that is surveyed is surveyed a total of five times (or 5
+interview rounds) over a period of two years.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Person_ID</strong>: Unique ID<br />
+</li>
+<li><strong>Age</strong>: In Years<br />
+</li>
+<li><strong>Sex</strong>: Self-Reported Gender<br />
+<strong>1:</strong> Male <strong>0:</strong> Female<br />
+</li>
+<li><strong>RaceEthnicity</strong>: Race/Ethnicity<br />
+<strong>1:</strong> Hispanic <strong>2:</strong> Non-Hispanic White Only
+<strong>3:</strong> Non-Hispanic Black Only <strong>4:</strong>
+Non-Hispanic Asian Only <strong>5:</strong> Non-Hispanic Other Race or
+Multiple Race<br />
+</li>
+<li><strong>CensusRegion</strong>: Respondents Census Region<br />
+<strong>1:</strong> North-East <strong>2:</strong> Mid-West
+<strong>3:</strong> South <strong>4:</strong> West<br />
+</li>
+<li><strong>HealthStatus</strong>: How does the respondent describe
+their own health<br />
+<strong>1:</strong> Excellent <strong>2:</strong> Very Good
+<strong>3:</strong> Good <strong>4:</strong> Fair <strong>5:</strong>
+Poor<br />
+</li>
+<li><strong>MentalHealth</strong>: How does the respondent describe
+their own mental health<br />
+<strong>1:</strong> Excellent <strong>2:</strong> Very Good
+<strong>3:</strong> Good <strong>4:</strong> Fair <strong>5:</strong>
+Poor<br />
+</li>
+<li><strong>BMI</strong>: Body Mass Index (Collected for adults)<br />
+</li>
+<li><strong>HasHypertension</strong>: Has the respondent been diagnosed
+with high blood pressure?<br />
+<strong>1:</strong> Yes <strong>0:</strong> No<br />
+</li>
+<li><strong>HasDiabetes</strong>: Has the respondent been diagnosed with
+diabetes?<br />
+<strong>1:</strong> Yes <strong>0:</strong> No<br />
+</li>
+<li><strong>Drinks5Day</strong>: Over the past 12 months, did the
+respondent have 5 or more alcoholic drinks per day?<br />
+<strong>1:</strong> Yes <strong>0:</strong> No<br />
+</li>
+<li><strong>HealthInsurance</strong>: What type of health insurance, if
+any, does the respondent have?<br />
+<strong>1:</strong> Any Private <strong>2:</strong> Public Only
+<strong>3:</strong> Uninsured<br />
+</li>
+<li><strong>HaveProvider</strong>: Respondent has a usual healthcare
+provider<br />
+<strong>1:</strong> Yes <strong>0:</strong> No<br />
+</li>
+<li><strong>NotAffordHealthCare</strong>: In the past 12 months,
+respondent did not receive or delayed medical care because of
+cost?<br />
+<strong>1:</strong> Yes <strong>0:</strong> No<br />
+</li>
+<li><strong>FamIncome_Continuous</strong>: Family total income from all
+sources<br />
+</li>
+<li><strong>FamIncome_PercentPoverty</strong>: Family income divided by
+the applicable poverty line based on family size and composition<br />
+</li>
+<li><strong>FamIncome_Categorical</strong>: Family income as a percent
+of the poverty line organized as a categorical variable<br />
+<strong>1:</strong> Poor/Negative <strong>2:</strong> Near Poor
+<strong>3:</strong> Low Income <strong>4:</strong> Middle Income
+<strong>5:</strong> High Income<br />
+</li>
+<li><strong>TotalHealthExpenditure</strong>: Total health care
+expenditures ($): all sources (public insurance, private insurance, and
+out-of-pocket)<br />
+</li>
+</ol>
+</div>
 
 <!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
 

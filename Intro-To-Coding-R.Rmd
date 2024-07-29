@@ -1,21 +1,17 @@
 ---
-title: "Ivey PhD Bootcamp"
-author: "Professor Lauren Cipriano"
-date: "2024-05-05"
-output: 
-  html_document: 
+title: "Intro to Coding and R"
+output:
+  html_document:
     toc: true
     toc_float: true
     theme: united
 css: laurens_styles.css
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, comment = "")
+```{r, child="_Global-Options.Rmd"}
 ```
 ***
 ***
-## R Tutorial Activity 1: Intro to R
 ### Download R
 1. R. The R Project for Statistical Computing. Available at: <https://cran.r-project.org/>  
 Select: "Download R for (Linux/macOS/Windows)" and follow the instructions.
@@ -34,9 +30,9 @@ Available [here](https://onlinelibrary-wiley-com.proxy1.lib.uwo.ca/doi/epdf/10.1
 ***
 
 ### Keeping Your Code Clean
-It is important when sharing your code and for your own sanity to document your code well.
+It is important when sharing your code and for your own sanity to document your code well. R will skip any line of code that begins with a '#'
+
 ```{r}
-# R will skip any line of code that begins with a '#'
 x = 5
 # x = 4
 x
@@ -46,10 +42,7 @@ x
 
 ***
 ### R as a Calculator
-```{r}
-# The basic operations are "*, +, -, /, ^"
-```
-
+The basic operations are "*, +, -, /, ^"
 
 ```{r}
 2+3 
@@ -61,11 +54,11 @@ x
 
 ***
 ### Variables
+You can store results in variables and use them in calculations. You can print the value of a variable by using it as a command.
+
 ```{r}
-# You can store results in variables and use them in calculations.
 x = 2+3
 
-# When you assign a value to a variable it does not print the answer to the screen. You can see the value of x by using x as a command.
 x
 
 y = 1+2
@@ -73,8 +66,10 @@ x*y
 
 z = x^y
 z
+```
 
-# R has another notation for assignment: the arrow: <- . Many R programmers use this. It may seem odd to programmers coming from other languages.
+R has another notation for assignment: the arrow: <- . Many R programmers use this. It may seem odd to programmers coming from other languages.
+```{r}
 x <- 3
 x
 
@@ -85,7 +80,7 @@ Look [here](https://statisticsglobe.com/assignment-operators-in-r) for an explan
 
 ***
 ### Vectors
-A vector is a type of list. Often it is a list of numbers, but it can be a list of other types such as characters.
+A vector is a type of list. It stores a collection of any datatype.
 You create vectors by using the c() function (concatenate).
 ```{r}
 # A vector with 4 entries
@@ -95,14 +90,21 @@ c(1, 2, 3, 4)
 x = c(1.1, 0.0, 3.14, 2.718)
 x
 
-# Of course using the arrow instead of equal sign works here.
+# Arrow works too.
 x <- c(2,4,6)
 x
+```
 
-# Sequences of integers are so common that there is a shortcut for making them.
-1:4; 3:10; 9:2
+Sequences of integers are so common that there is a shortcut for making them.
+```{r}
+1:4
+9:2
+# or 
+seq(1,2,0.1)
+```
 
-# A long vector will be displayed over several lines. The number at the start of each line in brackets is the index of the first entry on that line.
+A long vector will be displayed over several lines. The number at the start of each line in brackets is the index of the first entry on that line.
+```{r}
 x = 1:40
 x
 ```
@@ -122,7 +124,8 @@ pi
 sin(pi/2)
 
 # The exponential function is given by 'exp'.
-exp(0); exp(1)
+exp(0)
+exp(1)
 
 # factorial:  n!
 factorial(8)
@@ -132,40 +135,65 @@ factorial(8)/(factorial(3)*factorial(8-3))
 
 # n choose k: a built in function!
 choose(8,3)
+```
 
-# Sum and mean functions on vectors. They take the sum and average respectively of the vectors entries
+Sum and mean functions on vectors. They take the sum and average respectively of the vectors entries
+```{r}
 x = 1:6
 x
 
 sum(x)
 
 mean(x)
+```
 
-# Example: find the sum of the integers from 1 to 1024.
+Example: find the sum of the integers from 1 to 1024.
+```{r}
 x = 1:1024
 sum(x)
 
 # This can be done in one command.
 sum(1:1024)
-
-# Functions can have required and optional variables that must be passed through
-# For example, the function 'mean' is described this way:
 ```
-![](images/mean-rdocs.png)
 
+Functions can have required and optional variables that must be passed through.
+For example, the function 'mean' is described this way:
+![](images/mean-rdocs.png)
+If the data in the vector Y includes NA the default mean function doesn’t work properly.
 ```{r}
-# If the data in the vector Y includes NA the default mean function doesn’t work properly
 Y <- c(1, 2, 3, NA, 5, 6, NA, 9, 10, NA)
 mean(Y)
 
-# this is the same as the default
+# Same as the default
 mean(Y, na.rm=FALSE)     
 
-# Now, changing the argument to TRUE
+# Changing the argument to TRUE
 mean(Y, na.rm=TRUE)
 ```
 
 ***
+### Loops and if statements
+for
+do while
+while
+if
+```{r}
+
+```
+***
+### Arrays and Matrices
+Stuff about arrays and matrices
+```{r}
+
+```
+
+***
+### Data.tables
+Data.tables are hype
+```{r}
+
+```
+
 ### Getting Help
 R and RStudio have complete documentation on all R functions. The lower right pane in RStudio has a help tab you can use. The help contains a lot of information, so you will have to learn to filter out what you don't need. Try to use the R Documentation before taking your query to your favourite search engine.
 ```{r, eval=FALSE}
@@ -174,11 +202,3 @@ help(mean)
 # or
 ?mean
 ```
-
-
-
-
-
-
-
-

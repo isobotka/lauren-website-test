@@ -1,0 +1,57 @@
+---
+title: "MEPS Description"
+output:
+  html_document:
+    theme: united
+---
+
+```{r, child="_Global-Options.Rmd"}
+```
+
+### US Medical Expenditure Panel Survey (MEPS)
+
+```{r}
+tempData = read.csv("datasets/mepsData.csv")
+
+summary(tempData)
+```
+
+The data set mepsData is a longitudinal study which surveys and measures a particular group of people over time. In the case of MEPS, each household that is surveyed is surveyed a total of five times (or 5 interview rounds) over a period of two years.
+
+1.  **Person_ID**: Unique ID\
+2.  **Age**: In Years\
+3.  **Sex**: Self-Reported Gender\
+    **1:** Male **0:** Female\
+4.  **RaceEthnicity**: Race/Ethnicity\
+    **1:** Hispanic **2:** Non-Hispanic White Only **3:** Non-Hispanic Black Only **4:** Non-Hispanic Asian Only **5:** Non-Hispanic Other Race or Multiple Race\
+5.  **CensusRegion**: Respondents Census Region\
+    **1:** North-East **2:** Mid-West **3:** South **4:** West\
+6.  **HealthStatus**: How does the respondent describe their own health\
+    **1:** Excellent **2:** Very Good **3:** Good **4:** Fair **5:** Poor\
+7.  **MentalHealth**: How does the respondent describe their own mental health\
+    **1:** Excellent **2:** Very Good **3:** Good **4:** Fair **5:** Poor\
+8.  **BMI**: Body Mass Index (Collected for adults)\
+9.  **HasHypertension**: Has the respondent been diagnosed with high blood pressure?\
+    **1:** Yes **0:** No\
+10. **HasDiabetes**: Has the respondent been diagnosed with diabetes?\
+    **1:** Yes **0:** No\
+11. **Drinks5Day**: Over the past 12 months, did the respondent have 5 or more alcoholic drinks per day?\
+    **1:** Yes **0:** No\
+12. **HealthInsurance**: What type of health insurance, if any, does the respondent have?\
+    **1:** Any Private **2:** Public Only **3:** Uninsured\
+13. **HaveProvider**: Respondent has a usual healthcare provider\
+    **1:** Yes **0:** No\
+14. **NotAffordHealthCare**: In the past 12 months, respondent did not receive or delayed medical care because of cost?\
+    **1:** Yes **0:** No\
+15. **FamIncome_Continuous**: Family total income from all sources\
+16. **FamIncome_PercentPoverty**: Family income divided by the applicable poverty line based on family size and composition\
+17. **FamIncome_Categorical**: Family income as a percent of the poverty line organized as a categorical variable\
+    **1:** Poor/Negative **2:** Near Poor **3:** Low Income **4:** Middle Income **5:** High Income\
+18. **TotalHealthExpenditure**: Total health care expenditures ($): all sources (public insurance, private insurance, and out-of-pocket)\
+
+
+
+
+
+
+    

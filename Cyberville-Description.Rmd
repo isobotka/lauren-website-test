@@ -1,20 +1,16 @@
 ---
-title: 'Dataset Descriptions'
-author: "Professor Lauren Cipriano"
-date: "2024-05-05"
+title: 'Cyberville Dataset Description'
 output:
   html_document:
     theme: united
-    toc: true
-    toc_float: true
 css: laurens_styles.css
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, child="_Global-Options.Rmd"}
 ```
 
 ### families.csv
+
 ```{r}
 tempData = read.csv("datasets/families.csv")
 
@@ -46,5 +42,9 @@ The data set families contains information about 43,886 families living in the c
     43: Bachelor's degree (e.g., B.S., B.A., A.B.)\
     44: Master's degree (e.g., M.S., M.A., M.B.A.)\
     45: Professional school degree (e.g., M.D., D.D.S., D.V.M., LL.B., J.D.)\
-    46: Doctoral degree (e.g. Ph.D., Ed.D.)
+    46: Doctoral degree (e.g. Ph.D., Ed.D.)  
+```{r}
 
+```
+    
+    

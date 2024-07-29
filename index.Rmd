@@ -3,4 +3,4 @@ title: "This is the homepage of Lauren's Textbook"
 output: html_document
 ---
 
-Click on the hamburger menu or on a lab above to view it!
+Click the hamburger menu or a link above!

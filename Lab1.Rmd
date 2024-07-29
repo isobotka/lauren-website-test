@@ -136,8 +136,72 @@ data$REGION = factor(data$REGION, levels = c(1,2,3,4), label = c("NORTH",
 # New factor for education
 
 # Turn Education Level into a factor, might have not been worth it...
-data$EDUCATION = factor(data$EDUCATION, levels = c(31:46), label = c("<1st grade", "1-4th grade", "5,6th grade", "7,8th grade", "9th grade", "10th grade", "11th grade", "12th grade, no diploma", "High school graduate or equivalent", "Some college but no degree", "Associate degree in college (occupation/vocation program)", "Associate degree in college (academic program)", "Bachelor's Degree", "Master's Degree", "Professional School Degree", "Doctoral Degree"))
+#data$EDUCATION = factor(data$EDUCATION, levels = c(31:46), label = c("<1st grade", "1-4th grade", "5,6th grade", "7,8th grade", "9th grade", "10th grade", "11th grade", "12th grade, no diploma", "High school graduate or equivalent", "Some college but no degree", "Associate degree in college (occupation/vocation program)", "Associate degree in college (academic program)", "Bachelor's Degree", "Master's Degree", "Professional School Degree", "Doctoral Degree"))
 
 # Now we can view the summary of our data again
 summary(data)
 ```
+
+***
+
+## Part 2. Analyzing Data
+
+### Step 1. Some Summary Statistics
+#### a) Proportion of female-headed families
+```{r}
+# Number of Families in the dataset
+n_fam = nrow(data)
+
+# The which function returns a vector that tells us which indices of a matrix are true given a condition, in this case female-headed
+indices = which(data$TYPE=="Female-head family")
+
+n_female_fam = nrow(data[indices,])
+
+# Calculating the proportion
+prop_female_fam = n_female_fam/n_fam
+prop_female_fam
+```
+#### b) Average number of children per family
+```{r}
+# Total Number of children in all families
+n_total_children = sum(data$CHILDREN)
+
+# Recall we have n_total_fam from a)
+avg_n_children = n_total_children/n_fam
+avg_n_children
+
+# or...
+mean(data$CHILDREN)
+```
+#### c) Standard deviation of the number of children per family
+```{r}
+# R has a function for that!
+sd(data$CHILDREN)
+```
+
+#### d) Proportion of heads of household who did not receive a high school diploma  
+First we must look at our EDUCATION variable to see that any value coded below 39 means that no diploma was received
+```{r}
+# Using the which function again (note this will overwrite our previous indices variable since we chose the same name)
+indices = which(data$EDUCATION<39)
+
+# Counting the rows
+n_no_diploma = nrow(data[indices,])
+
+# Finding the proportion
+prop_no_diploma = n_no_diploma/n_fam
+prop_no_diploma
+```
+
+#### e) Proportion of families whos head received a bachelor's or master's degree and have one child
+```{r}
+# This time, we will combine multiple arguments in the which function using logical operators (| = OR, & = AND, ! = NOT)
+indices = which((data$EDUCATION==43 | data$EDUCATION==44) & data$CHILDREN==1)
+
+n_fam_of_interest = nrow(data[indices,])
+
+prop_fam_of_interest = n_fam_of_interest/n_fam
+prop_fam_of_interest
+```
+
+

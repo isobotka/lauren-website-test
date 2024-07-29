@@ -9,11 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Professor Lauren Cipriano" />
 
-<meta name="date" content="2024-05-05" />
 
-<title>Dataset Descriptions</title>
+<title>Datasets for Ivey Business Statistics</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -31,9 +29,6 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -225,69 +220,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -295,16 +227,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -322,12 +244,8 @@ div.tocify {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><a href="index.html">Home</a></li>
-        <li><a href="dataset-descriptions.html">Dataset Descriptions</a></li>
-        <li><a href="Lab1.html">Lab 1</a></li>
-        <li><a href="PhD-Bootcamp-Lab-1.html">PhD Bootcamp Lab 1</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="https://github.com">GitHub</a></li>
+        <li><a href="Datasets-Home.html">Datasets</a></li>
+        <li><a href="Intro-To-Coding-R.html">Intro to Coding and R</a></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -337,78 +255,197 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Dataset Descriptions</h1>
-<h4 class="author">Professor Lauren Cipriano</h4>
-<h4 class="date">2024-05-05</h4>
+<h1 class="title toc-ignore">Datasets for Ivey Business Statistics</h1>
 
 </div>
 
 
-<div id="families.csv" class="section level3">
-<h3>families.csv</h3>
-<pre class="r"><code>tempData = read.csv(&quot;datasets/families.csv&quot;)
-
-summary(tempData)</code></pre>
-<pre><code>##       TYPE          PERSONS          CHILDREN          INCOME      
-##  Min.   :1.000   Min.   : 2.000   Min.   :0.0000   Min.   :-22166  
-##  1st Qu.:1.000   1st Qu.: 2.000   1st Qu.:0.0000   1st Qu.: 18300  
-##  Median :1.000   Median : 3.000   Median :1.0000   Median : 34550  
-##  Mean   :1.431   Mean   : 3.137   Mean   :0.9479   Mean   : 41336  
-##  3rd Qu.:1.000   3rd Qu.: 4.000   3rd Qu.:2.0000   3rd Qu.: 55828  
-##  Max.   :3.000   Max.   :25.000   Max.   :9.0000   Max.   :451887  
-##      REGION        EDUCATION    
-##  Min.   :1.000   Min.   :31.00  
-##  1st Qu.:2.000   1st Qu.:39.00  
-##  Median :3.000   Median :39.00  
-##  Mean   :2.526   Mean   :39.42  
-##  3rd Qu.:3.000   3rd Qu.:41.00  
-##  Max.   :4.000   Max.   :46.00</code></pre>
-<p>The data set families contains information about 43,886 families
-living in the city of Cyberville. The city has four regions. In these
-exercises, we will learn about the families of Cyberville by using
-sampling. For each family, the following information is recorded:</p>
-<ol style="list-style-type: decimal">
-<li>Family type<br />
-<strong>1:</strong> Husband-wife family <strong>2:</strong> Male-head
-family <strong>3:</strong> Female-head family<br />
+<p>Below you will find links to the case data files.</p>
+<ul>
+<li>You can link to .TXT files directly using the url<br />
 </li>
-<li>Number of persons in family<br />
+<li>You can download .CSV files to your computer</li>
+</ul>
+<div id="import-data-into-r" class="section level2">
+<h2>Import data into R</h2>
+<p>Access the TXT file directly by url:</p>
+<pre class="r"><code>data1 &lt;- read.table(url(&quot;https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/data.txt&quot;), 
+                        header = TRUE)</code></pre>
+<p>Access the CSV file saved onto your computer:</p>
+<pre class="r"><code> data2 &lt;- read.csv(&quot;C:/Users/Lauren/FavouriteClass/data.csv&quot;, 
+                        header = TRUE)</code></pre>
+</div>
+<div id="datasets-for-business-statistics" class="section level2">
+<h2>Datasets for Business Statistics</h2>
+<div id="cyberville-families" class="section level3">
+<h3>Cyberville Families</h3>
+<ul>
+<li><a href="Cyberville-Description.html">Data dictionary</a><br />
 </li>
-<li>Number of children in family<br />
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.csv">CSV</a></li>
+</ul>
+</div>
+<div id="medical-expenditure-panel-survey-data" class="section level3">
+<h3>Medical Expenditure Panel Survey data</h3>
+<ul>
+<li><a href="MEPS-Description.html">Data dictionary</a><br />
 </li>
-<li>Family income<br />
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/mepsData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/mepsData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="occupational-prestige-data" class="section level3">
+<h3>Occupational Prestige data</h3>
+<ul>
+<li>Data dictionary<br />
 </li>
-<li>Region<br />
-<strong>1:</strong> North (10,149 families) <strong>2:</strong> East
-(10,390) <strong>3:</strong> South (13,457) <strong>4:</strong> West
-(9,890)<br />
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PrestigeData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PrestigeData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="roulette-wheel" class="section level3">
+<h3>Roulette Wheel</h3>
+<ul>
+<li>Exhibit 1: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/RouletteData_Ex1.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/RouletteData_Ex1.csv">CSV</a></li>
+<li>Exhibit 2: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/RouletteData_Ex2.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/RouletteData_Ex2.csv">CSV</a></li>
+</ul>
+</div>
+<div id="pga-golf" class="section level3">
+<h3>PGA Golf</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PGAGolfData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PGAGolfData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="ian-steele" class="section level3">
+<h3>Ian Steele</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/IanSteeleData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/IanSteeleData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="bikeshare" class="section level3">
+<h3>Bikeshare</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/BikeshareData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/BikeshareData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="vungle" class="section level3">
+<h3>Vungle</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/VungleData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/VungleData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="pilgrim-bank" class="section level3">
+<h3>Pilgrim Bank</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PilgrimBankData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PilgrimBankData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="progressive-insurance" class="section level3">
+<h3>Progressive Insurance</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/ProgressiveInsuranceData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/ProgressiveInsuranceData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="lansink" class="section level3">
+<h3>Lansink</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/LansinkData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/LansinkData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="vanderbilt" class="section level3">
+<h3>Vanderbilt</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/VanderbiltData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/VanderbiltData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="bigeast-bank" class="section level3">
+<h3>BigEast Bank</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/BigEastData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/BigEastData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="pennsylvania-dominion" class="section level3">
+<h3>Pennsylvania Dominion</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/MortgageData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/MortgageData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="happiness" class="section level3">
+<h3>Happiness</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/GSS_HappyData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/GSS_HappyData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="select-collections" class="section level3">
+<h3>Select Collections</h3>
+<ul>
+<li>Training Data: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TrainData.txt">TXT</a>
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TrainData.csv">CSV</a><br />
 </li>
-<li>Education<br />
-31: Less than 1st grade<br />
-32: 1st, 2nd, 3rd, or 4th grade<br />
-33: 5th or 6th grade<br />
-34: 7th or 8th grade<br />
-35: 9th grade<br />
-36: 10th grade<br />
-37: 11th grade<br />
-38: 12th grade, no diploma<br />
-39: High school graduate, high school diploma, or equivalent<br />
-40: Some college but no degree<br />
-41: Associate degree in college (occupation/vocation program)<br />
-42: Associate degree in college (academic program)<br />
-43: Bachelor’s degree (e.g., B.S., B.A., A.B.)<br />
-44: Master’s degree (e.g., M.S., M.A., M.B.A.)<br />
-45: Professional school degree (e.g., M.D., D.D.S., D.V.M., LL.B.,
-J.D.)<br />
-46: Doctoral degree (e.g. Ph.D., Ed.D.)</li>
-</ol>
+<li>Testing Data: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TestData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TestData.csv">CSV</a><br />
+</li>
+<li>Testing Data Paid Amount: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TestPaid.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TestPaid.csv">CSV</a></li>
+</ul>
+</div>
 </div>
 
-<p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p>
+<!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
 
 
-</div>
-</div>
 
 </div>
 
@@ -441,35 +478,6 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
