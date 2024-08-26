@@ -1,0 +1,334 @@
+---
+title: "Binomial Test"
+output:
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+css: laurens_styles.css
+editor_options: 
+  markdown: 
+    wrap: 96
+---
+
+```{r, child="_Global-Options.Rmd"}
+```
+
+Learning objectives of this asynchronous lesson:
+
+-   Understanding when to use the binomial test\
+-   Write an appropriate null hypothesis, apply binomial test, and interpret the p-value\
+-   Estimate and interpret a point estimate and confidence intervals for the proportion
+
+## Binomial Distribution
+### Recall Bernoulli trials
+
+An experiment where there are two possible outcomes with probability p of "success" is called a
+Bernoulli trial.
+
+```{r}
+# Simulate a single Bernoulli trial with p = 1/6
+p = 1/6
+if(runif(1) <= p){1}else{0}
+
+```
+
+### Recall the Binomial Process
+
+A sequence of Bernoulli trials is called a Binomial process.
+
+```{r}
+# Simulate a 20 Bernoulli trials with p = 1/6
+p = 1/6
+n = 20
+as.integer(runif(n) <= p)
+
+```
+
+## Binomial distribution functions
+
+There are four built in functions related to the binomial distribution in R.
+
+### Probability mass function
+
+This function will output the probability of observing "x" successes in "size" trials when the
+probability of success is "prob".
+
+```{r}
+# probability mass function
+obs = 6
+n = 20
+p = 1/6
+dbinom(x = obs, size = n, prob = p)
+
+```
+
+### Cumulative mass function
+
+This function will output the probability of observing "q" or fewer successes in "size" trials
+when the probability of success is "prob"
+
+```{r}
+obs = 6
+n = 20
+p = 1/6
+pbinom(q = obs, size = n, prob = p)
+
+# If we want to know the probability of observing 6 or more successes, use 
+# 1- probability of observing at least 5
+1 - pbinom(q = (obs - 1), size = n, prob = p)
+
+```
+
+### Inverse of the Cumulative Mass Function
+
+For this function, the user specifies probability of observing any outcome up to and including x
+and the function will output the corresponding x. For example, we know there is a 96%
+probability of observing a 6 or less...
+
+```{r}
+cumul.prob = 0.962
+n = 20
+p = 1/6
+qbinom(p = cumul.prob, size = n, prob = p)
+
+```
+
+### Random number generator
+
+The inverse of the Cumulative Mass Function can be used as a random number generator, by putting
+p=runif(100), the function will generate 100 random outcomes of 20 rolls where the probability
+of doubles is 1/6.
+
+R also has a built in random number generator.\
+This function will generate "n" random outcomes from "size" Bernoulli trials when the
+probability of success is "prob"
+
+```{r}
+trials = 100
+n = 20
+p = 1/6
+rbinom(n = trials, size = n, prob = p)
+
+```
+
+
+## Binomial Test: Theory
+
+#### Does my backgammon app give the expected number of doubles?
+
+If the backgammon app on my phone is rolling the two die at random, doubles represent 6 out of 36 possible roll outcomes.
+
+The null hypothesis is then: The die are fair. The frequency of doubles is 6/36 = 1/6 of all
+rolls. 
+
+This graph illustrates the probability of observing each possible outcome when the data
+only contain 20 observations of die rolls.
+
+```{r}
+# Illustrate the null distribution for n=20
+n=20
+null.p = 1/6
+possible.outcomes = c(0:n)
+probability.outcome = dbinom(x = possible.outcomes, size = n, prob = null.p)
+
+barplot(height = probability.outcome,
+        names.arg = possible.outcomes,
+        xlab = "Outcome: Number of doubles in 20 rolls",
+        ylab = "Probability of outcome",
+        las = 1   # orients the y-axis labels to read horizontally
+        )
+
+```
+
+#### Reading values off the null distribution graph
+
+##### What is the probability of observing *exactly* 6 doubles?
+
+```{r}
+# Calculate the probability of observing exactly 6 successes
+n=20
+obs = 6
+null.p = 1/6
+
+# probability of exactly 6
+dbinom(x = obs, size = n, prob = null.p)
+
+```
+
+##### What is the probability of observing 6 or more doubles if the die are, in fact, fair?
+
+```{r}
+# Calculate the probability of observing 6 or more successes
+n=20
+obs = 6
+null.p = 1/6
+
+# 1- probability of observing at least 5
+1 - pbinom(q = (obs - 1), size = n, prob = null.p)
+
+```
+
+We can visualize this as the sum of the height of all the bars including and to the right of 6.
+
+```{r, echo=FALSE}
+possible.outcomes = c(0:n)
+probability.outcome = dbinom(x = possible.outcomes, size = n, prob = null.p)
+
+barplot(height = probability.outcome,
+        names.arg = possible.outcomes,
+        xlab = "Outcome: Number of doubles in 20 rolls",
+        ylab = "Probability of outcome",
+        las = 1,   # orients the y-axis labels to read horizontally
+        col = c(rep("gray", 6), rep("blue", 15))
+        )
+
+```
+
+##### What is the probability of observing anything as strange or stranger than 6 doubles in 20 rolls, in a world where the truth is that the die are fair?
+
+Now, we need to also consider *all* outcomes that are less likely than 6.
+
+```{r}
+# Calculate the probability of observing specifically 6 doubles or an outcome that is less likely than 6 doubles
+sum(probability.outcome[probability.outcome <= dbinom(x = obs, size = n, prob = null.p)])
+
+```
+
+```{r, echo=FALSE}
+p.value = format(sum(probability.outcome[probability.outcome <= dbinom(x = obs, size = n, prob = null.p)]),
+                 digits = 3)
+
+barplot(height = probability.outcome,
+        names.arg = possible.outcomes,
+        xlab = "Outcome: Number of doubles in 20 rolls",
+        ylab = "Probability of outcome",
+        las = 1,   # orients the y-axis labels to read horizontally
+        col = c(rep("blue", 1), rep("gray", 5), rep("blue", 15))
+        )
+
+abline(h=dbinom(x = obs, size = n, prob = null.p),   # draw a line at the probability of outcome 6 
+       col = "blue", 
+       lwd = 2,   # lwd is the line width
+       lty = 2)   # lty is dashed
+
+# Add a text box
+text(x = 17, 
+     y = dbinom(x = obs, size = n, prob = null.p) * 0.8, 
+     labels = paste0("Outcomes as or less likely than the observed 6:\n probability = ", p.value), 
+     col = "blue", 
+     cex = 0.85)     # cex is font size
+
+```
+
+
+## Binomial Test in R
+
+For all standard statistical tests, R has a built in function. Often these functions have lots
+of flexibility.
+
+```{r}
+# Use the binom.test function
+binom.test(x = obs, n = n, p = null.p)
+
+```
+
+Notice that the p-value reported by R's built in function (p-value = 0.1279) reports the same p-value that we just calculated to represent the probability of observing a 6 or something less likely than a 6!
+
+
+## Point estimate for probability p
+
+Notice also, that R report a point estimate for the probability of success based on the data (0.3), and the the 95% confidence interval for that point estimate (0.1189, 0.5428).
+
+The 95% confidence interval reports the range within which there is a 95% probability the true
+proportion lies.
+
+We can also calculate this measure directly: 
+
+```{r}
+options(digits = 3)
+# Calculate the point estimate and 95% confidence interval
+point.estimate = obs/n
+
+## 95% confidence interval around a proportion using Normal approximation
+se <- sqrt(point.estimate * (1 - point.estimate)/ n)
+lowerCI = point.estimate + qnorm(0.025, mean = 0, sd = 1) * se
+upperCI = point.estimate + qnorm(0.975, mean = 0, sd = 1) * se
+
+print(cbind(point.estimate, lowerCI, upperCI))
+```
+
+You will see that we calculated a slightly different 95% confidence interval than the R function did. R's default is an exact 95% confidence interval. I used the Normal approximation.
+
+Many classical statistics were developed more than 100 years ago, prior to the availability of widespread fast computing we enjoy. 
+Therefore, when calculating exact confidence intervals was tedious by hand or require difficult
+computations, there was a great incentive to develop easier to calculate high-quality approximate confidence intervals.
+
+So, for many statistics, you will find that there many options. 
+When in doubt, use the default in R.  It is also generally reasonable to use the Normal approximation (often called the asymptotic approach). Don't stress it.
+
+
+```{r, echo=FALSE}
+#  R package called 'binom' 
+
+#install.packages("binom")
+library(binom)
+
+```
+
+
+```{r}
+# There is an R package called 'binom' that has all the different methods 
+#  for calculating the 95% confidence interval around a proportion!
+
+#install.packages("binom")
+#library(binom)
+
+binom.confint(obs, n = n, method = "all")
+
+```
+
+## Influence of sample size
+
+For all statistical analysis, sample size makes a huge difference in the precision of a point
+estimate. That is to say, greater sample size decreases uncertainty in the range within which
+the true proportion lies.
+
+Let's consider if I had seen the same rate of doubles over 100 rolls. 
+So now, that would be 30 doubles in 100 rolls.
+
+```{r}
+obs = 30
+n = 100
+null.p = 1/6
+
+# Use the binom.test function
+binom.test(x = obs, n = n, p = null.p)
+
+```
+
+If the die were fair, this would be an extremely unlikely observation. The probability of
+observing 30 doubles in 100 rolls (or anything less likely than that) is 0.001.
+
+We can visualize this, but the bars under 7 and over 30 are so small, we can barely see that they are coloured blue. 
+
+```{r, echo=FALSE}
+possible.outcomes = c(0:n)
+probability.outcome = dbinom(x = possible.outcomes, size = n, prob = null.p)
+p.value = format(sum(probability.outcome[probability.outcome <= dbinom(x = obs, size = n, prob = null.p)]),
+                 digits = 3)
+
+barplot(height = probability.outcome,
+        names.arg = possible.outcomes,
+        xlab = "Outcome: Number of doubles in 100 rolls",
+        ylab = "Probability of outcome",
+        las = 1,   # orients the y-axis labels to read horizontally
+        col = c(rep("blue", 7), rep("gray", 23), rep("blue", 70))
+        )
+
+
+```
+
+
+Next:  t-tests
+

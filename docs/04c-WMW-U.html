@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Wilcoxon Rank Sum / Mann-Whitney U Test</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="laurens_styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      -->
+      <a class="navbar-brand" href="index.html">Lauren's Awesome Textbook</a>
+    </div>
+  <!--/.nav-collapse
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Datasets-Home.html">Datasets</a></li>
+        <li><a href="Intro-To-Coding-R.html">Intro to Coding and R</a></li>
+      </ul>
+    </div>/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Wilcoxon Rank Sum / Mann-Whitney U
+Test</h1>
+
+</div>
+
+
+<p>Learning objectives of this asynchronous lesson:</p>
+<ul>
+<li>Understanding when to use the Mann-Whitney U test</li>
+<li>Evaluate whether the underlying assumptions of a Mann-Whitney are
+present</li>
+<li>Write an appropriate null hypothesis, apply test appropriately, and
+interpret the p-value</li>
+</ul>
+<div id="data-set" class="section level2">
+<h2>Data set</h2>
+<p>For this set of examples, I will continue to use the sample
+Cyberville families data created in the t-test page.</p>
+<pre class="r"><code>data &lt;- read.table(url(&quot;https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt&quot;), 
+                        header = TRUE)
+
+## suppress scientific notation for ease of reading numbers
+options(scipen=99)  </code></pre>
+<p>Using the same set.seed, I can take the exact same random sample from
+the population. So that I have them for later, I am going to make the
+variables for HasChildren and HasCollege.</p>
+<pre class="r"><code># Using the same random number seed, I will get the same sample from the population dataset
+set.seed(11)  
+
+# create the random sample dataset for analysis
+n &lt;- 400   # sample size
+select.obs &lt;- sample(1:nrow(data), n) 
+study.data &lt;- data[select.obs, ]    
+
+# Create a variable identifying whether or not a family has children
+study.data$HasChildren &lt;- 0 # initialize the variable
+study.data$HasChildren[ study.data$CHILDREN &gt; 0 ] &lt;- 1 # assign a 1 if CHILDREN &gt;0
+
+# make data subsets
+data.NoKids &lt;- study.data$INCOME[study.data$HasChildren == 0]
+data.YesKids &lt;- study.data$INCOME[study.data$HasChildren == 1]
+
+
+# Create a variable identifying whether or not the survey respondent has any college
+study.data$HasCollege &lt;- 0 # initialize the variable
+study.data$HasCollege[ study.data$EDUCATION &gt;= 40 ] &lt;- 1 # assign a 1 if Any College
+
+# make data subsets
+data.NoCollege &lt;- study.data$INCOME[study.data$HasCollege == 0]
+data.YesCollege &lt;- study.data$INCOME[study.data$HasCollege == 1]</code></pre>
+</div>
+<div id="mann-whitney-u-test" class="section level2">
+<h2>Mann-Whitney U Test</h2>
+<p>The Mann-Whitney U Test compares the distributions of two groups
+answering the question: Do both groups come from the same population
+distribution? The null hypothesis is that both groups were sampled from
+the same population distribution.</p>
+<p>The Mann-Whitney U Test provides a non-parametric alternative to
+t-test.</p>
+<p>The Mann-Whitney U test only has two assumptions</p>
+<ul>
+<li>Outcome is a continuous, ordinal, or rank measure (Cannot be binary
+or un-ordered categorical)<br />
+</li>
+<li>Independent observations: The data need to come from a random sample
+where each observation is independent of other observations</li>
+</ul>
+<div id="example-1." class="section level3">
+<h3>Example 1.</h3>
+<p>Continuing the example from the MWU presentation, I will demonstrate
+the built in R function.</p>
+<p>Recall that we are asking the question, Do the salaries of men and
+women associate consultants come from the same distribution?</p>
+<p>We have data on all the associate consultants in a department: seven
+men consultants and five women consultants.</p>
+<pre class="r"><code># Because of the small sample size, we can hand enter the data
+men &lt;- c(120500, 103000, 187800, 156000, 145800, 190800, 162800)
+women &lt;- c(104800, 110000, 102400, 187200, 121500)
+
+men</code></pre>
+<pre><code>&gt; [1] 120500 103000 187800 156000 145800 190800 162800</code></pre>
+<pre class="r"><code>women</code></pre>
+<pre><code>&gt; [1] 104800 110000 102400 187200 121500</code></pre>
+<pre class="r"><code># H0: Men and Women associate consultants come from the same income distribution
+wilcox.test(men, women)</code></pre>
+<pre><code>&gt; 
+&gt;   Wilcoxon rank sum exact test
+&gt; 
+&gt; data:  men and women
+&gt; W = 26, p-value = 0.2
+&gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>Observe the p-value is 0.202. Therefore, we do not reject the null
+hypothesis that men and women associate consultants come from the same
+income distribution.</p>
+</div>
+<div id="example-2." class="section level3">
+<h3>Example 2.</h3>
+<p>In the second example, we will evaluate the question: Do families
+with and without some college have the same average income?</p>
+<p>When we looked at this question before, we saw that the assumptions
+of a t-test were not well satisfied. The data were right skewed and one
+population had a much higher variance than the other. While we can use
+Welsh’s t-test to accommodate heteroskedasticity, combined with the
+right skewed data, it would be reasonable to be concerned about false
+findings from a t-test.</p>
+<p>Recall the histogram for each sample and the summary statistics:</p>
+<p><img src="04c-WMW-U_files/figure-html/unnamed-chunk-6-1.png" width="672" /><img src="04c-WMW-U_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<pre><code>&gt;                                [,1]       [,2]
+&gt; study.data$HasCollege             0          1
+&gt; study.data$INCOME.avg         31221      55151
+&gt; study.data$INCOME.n             224        176
+&gt; study.data$INCOME.var     497270750 1189858919
+&gt; study.data$INCOME.sd          22300      34494
+&gt; study.data$INCOME.se           1490       2600
+&gt; study.data$INCOME.lower95     28301      50055
+&gt; study.data$INCOME.upper95     34141      60247</code></pre>
+<p>Recall the results of the two sided t-test:</p>
+<pre class="r"><code># Two-sample, two-sided, t-test
+# H0: Families with and without some college have the same average income
+t.test(study.data$INCOME ~ study.data$HasCollege)   </code></pre>
+<pre><code>&gt; 
+&gt;   Welch Two Sample t-test
+&gt; 
+&gt; data:  study.data$INCOME by study.data$HasCollege
+&gt; t = -8, df = 285, p-value = 0.00000000000003
+&gt; alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+&gt; 95 percent confidence interval:
+&gt;  -29829 -18031
+&gt; sample estimates:
+&gt; mean in group 0 mean in group 1 
+&gt;           31221           55151</code></pre>
+<p>Now, let’s compare the results to the MWU:</p>
+<pre class="r"><code># Two-sided Mann-Whitney U Test
+# H0: Families with and without some college have the same distribution of income
+wilcox.test(study.data$INCOME ~ study.data$HasCollege)</code></pre>
+<pre><code>&gt; 
+&gt;   Wilcoxon rank sum test with continuity correction
+&gt; 
+&gt; data:  study.data$INCOME by study.data$HasCollege
+&gt; W = 10906, p-value = 0.00000000000002
+&gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>Using the MWU test, the p-value continues to be very very small. We
+reject the null hypothesis that families with and without some college
+have the same distribution of income.</p>
+</div>
+<div id="example-3." class="section level3">
+<h3>Example 3.</h3>
+<p>In the third example, we will evaluate the question: Do families with
+children have the same average income as families without children?</p>
+<p>When we looked at this question before, we did not evaluate the
+underlying assumptions of a t-test, so we can do that now.</p>
+<ul>
+<li>First, we know that Income is a continuous outcome</li>
+<li>Second, we know the observations are independent of each other</li>
+<li>Third, we observe that the distribution is quite right skewed. This
+is not Normal data and a small number of very high observations may be
+influencing the sample means in a manner that will alter the outcome of
+a t-test. For this reason, I would choose a Mann-Whitney U test over a
+t-test for these data.</li>
+<li>Fourth, the standard deviation of the two samples is similar,
+certainly well within what could be accommodated with a Welsh’s
+correction if all other assumptions were satisfied (but they are
+not).</li>
+</ul>
+<p><img src="04c-WMW-U_files/figure-html/unnamed-chunk-10-1.png" width="672" /><img src="04c-WMW-U_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<pre><code>&gt;                                 [,1]      [,2]
+&gt; study.data$HasChildren             0         1
+&gt; study.data$INCOME.avg          45142     38620
+&gt; study.data$INCOME.n              192       208
+&gt; study.data$INCOME.var     1012408474 859609963
+&gt; study.data$INCOME.sd           31818     29319
+&gt; study.data$INCOME.se            2296      2033
+&gt; study.data$INCOME.lower95      40641     34635
+&gt; study.data$INCOME.upper95      49643     42604</code></pre>
+<p>Recall the results of the two sided t-test:</p>
+<pre class="r"><code># Two-sample, two-sided, t-test
+# H0: Families with and without some college have the same average income
+t.test(study.data$INCOME ~ study.data$HasChildren)   </code></pre>
+<pre><code>&gt; 
+&gt;   Welch Two Sample t-test
+&gt; 
+&gt; data:  study.data$INCOME by study.data$HasChildren
+&gt; t = 2, df = 388, p-value = 0.03
+&gt; alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+&gt; 95 percent confidence interval:
+&gt;    493 12552
+&gt; sample estimates:
+&gt; mean in group 0 mean in group 1 
+&gt;           45142           38620</code></pre>
+<p>Now, let’s compare the results to the MWU:</p>
+<pre class="r"><code># Two-sided Mann-Whitney U Test
+# H0: Families with and without some college have the same distribution of income
+wilcox.test(study.data$INCOME ~ study.data$HasChildren)</code></pre>
+<pre><code>&gt; 
+&gt;   Wilcoxon rank sum test with continuity correction
+&gt; 
+&gt; data:  study.data$INCOME by study.data$HasChildren
+&gt; W = 22638, p-value = 0.02
+&gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>Using the MWU test, the p-value decreases from 0.034 to 0.02. We
+reject the null hypothesis that families with and without children have
+the same distribution of income.</p>
+</div>
+</div>
+<div id="bootstrapping-a-null-distribution" class="section level2">
+<h2>Bootstrapping a null distribution</h2>
+<p>In the next section, I will demonstrate how to use bootstrapping
+(read: simulation) to generate the null distribution. Bootstrapped
+p-values are common with non-parametric tests (built into the R function
+for the test).</p>
+<div id="step-1.-generate-the-null-distribution" class="section level3">
+<h3>Step 1. Generate the null distribution</h3>
+<p>In the first step, we will write a function to simulate the possible
+results of a study with two samples, with sample sizes n1 and n2
+respectively, thousands of times.</p>
+<pre class="r"><code>bootstrap.MWU.p &lt;- function(n1, n2, sims = 5000){
+      null.dist &lt;- rep(NA, length = sims)  # initialize a vector to hold results
+
+      for(i in c(1:sims)){
+          ## randomly generate random values for samples 1 and 2
+          null.samp &lt;- runif(n1+n2)
+          
+          # assign ranks to the combined dataset where the first n1 will be the ranks for sample 1
+          null.ranks &lt;- rank(null.samp)
+          
+          # Calculate the U value for group 1  (the null distribution is symmetrical, so we only need 1 side)
+          U1 &lt;- sum(null.ranks[1:n1]) - n1*(n1+1)/2
+          
+          null.dist[i] &lt;- U1
+      }
+      
+      # calculate the area under the curve from the left of the null distribution
+      cum.freq &lt;- cumsum(table(null.dist)/sims)  
+      # Combine the U values with 2-sided p-values; then only print the U values for the left half of the curve
+      p.values &lt;- data.frame(U.value = as.numeric(names(cum.freq)), Two.sided.p = cum.freq*2)
+      p.values &lt;- p.values[which(p.values$Two.sided.p &lt; 1), ]
+
+      return(p.values)
+  }</code></pre>
+<p>Now let’s test our function on an example where we know the
+solution!</p>
+<pre class="r"><code>## Let&#39;s use the null distribution simulator to generate a look up table for our first example
+
+# Generate the p-value table for the first example with n1=5 and n2=7
+p.value.table &lt;- bootstrap.MWU.p(5, 7, sims = 10000)
+
+# print the lookup table
+p.value.table</code></pre>
+<pre><code>&gt;    U.value Two.sided.p
+&gt; 0        0      0.0030
+&gt; 1        1      0.0060
+&gt; 2        2      0.0110
+&gt; 3        3      0.0200
+&gt; 4        4      0.0312
+&gt; 5        5      0.0502
+&gt; 6        6      0.0744
+&gt; 7        7      0.1094
+&gt; 8        8      0.1492
+&gt; 9        9      0.2010
+&gt; 10      10      0.2686
+&gt; 11      11      0.3470
+&gt; 12      12      0.4398
+&gt; 13      13      0.5426
+&gt; 14      14      0.6564
+&gt; 15      15      0.7678
+&gt; 16      16      0.8936</code></pre>
+<pre class="r"><code># recall that the smaller U was 9
+p.value.table$Two.sided.p[p.value.table$U.value == 9]</code></pre>
+<pre><code>&gt; [1] 0.201</code></pre>
+</div>
+<div id="step-2.-build-a-mwu-function" class="section level3">
+<h3>Step 2. Build a MWU function</h3>
+<p>We can build our own Mann-Whitney U Test function:</p>
+<pre class="r"><code>MWU &lt;- function(data1, data2, sims = 5000){
+          n1 = length(data1)
+          n2 = length(data2)
+  
+          # assign ranks to the combined dataset where the first n1 will be the ranks for sample 1
+          ranked &lt;- rank(c(data1, data2))
+          
+          # Calculate the U values (must do both because we don&#39;t know which will be smaller)
+          U1 &lt;- sum(ranked[1:n1]) - n1*(n1+1)/2
+          U2 &lt;- sum(ranked[(n1+1):(n1+n2)]) - n2*(n2+1)/2
+          
+          minU &lt;- min(U1, U2)  
+      
+          # create the null distribution to look up the p-value
+          p.value.table &lt;- bootstrap.MWU.p(n1, n2, sims)
+          
+          # when there are many many possible U values, the precise value might not be in the table... 
+          #   so let&#39;s pull the closest value
+          #   (added an integer control just in case there are ties in the ranks)
+          U.position = which.min(abs(p.value.table$U.value - as.integer(minU)))
+          p.value.sim &lt;- p.value.table$Two.sided.p[U.position]
+          
+          # with larger sample sizes, the null distribution for the MWU test 
+          #  is asymptotically Normal.
+          # This means we can also calculate the p-value using the Normal distribution
+          mean.null.U = (n1 * n2)/2
+          sd.null.U = sqrt( n1 * n2 * (n1 + n2 + 1) /12 )
+          p.value.Norm &lt;- pnorm(minU, mean = mean.null.U, sd = sd.null.U)*2 
+          
+          # the return statement is what the function prints out
+          return(cat(&quot;Business Statistics Mann-Whitney two-sided U-test&quot;, 
+                     &quot;Null hypothesis: Both samples are from the same population distribution&quot;,
+                       paste(&quot;Bootstrapped p-value:&quot;, p.value.sim), 
+                       paste(&quot;Normal distribution p-value:&quot;, p.value.Norm),
+                       sep = &quot;\n&quot;))
+
+          }</code></pre>
+</div>
+<div id="step-3.-test-our-new-function" class="section level3">
+<h3>Step 3. Test our new function</h3>
+<p>Let’s compare our own function to the built in function in R</p>
+<pre class="r"><code>wilcox.test(data.NoKids, data.YesKids)</code></pre>
+<pre><code>&gt; 
+&gt;   Wilcoxon rank sum test with continuity correction
+&gt; 
+&gt; data:  data.NoKids and data.YesKids
+&gt; W = 22638, p-value = 0.02
+&gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
+<pre class="r"><code>MWU(data.NoKids, data.YesKids, sims = 50000)</code></pre>
+<pre><code>&gt; Business Statistics Mann-Whitney two-sided U-test
+&gt; Null hypothesis: Both samples are from the same population distribution
+&gt; Bootstrapped p-value: 0.02024
+&gt; Normal distribution p-value: 0.0207950244706736</code></pre>
+<p>As you can see our home-made function and the Normal approximation
+method both replicate the built in R function.</p>
+<p>Note, to calculate a p-value less than 0.0001, it is necessary to
+complete more than 10,000 simulations. Similarly, to calculate a p-value
+less than 0.00001, it is necessary to complete more than 100,000
+simulations. Therefore, the Normal approximation approach will be more
+accurate for extremely small p values.</p>
+<p>We can test our function again using the more difficult case of the
+very small p-value.</p>
+<pre class="r"><code>wilcox.test(data.NoCollege, data.YesCollege)</code></pre>
+<pre><code>&gt; 
+&gt;   Wilcoxon rank sum test with continuity correction
+&gt; 
+&gt; data:  data.NoCollege and data.YesCollege
+&gt; W = 10906, p-value = 0.00000000000002
+&gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
+<pre class="r"><code>MWU(data.NoCollege, data.YesCollege, sims = 50000)</code></pre>
+<pre><code>&gt; Business Statistics Mann-Whitney two-sided U-test
+&gt; Null hypothesis: Both samples are from the same population distribution
+&gt; Bootstrapped p-value: 0.00004
+&gt; Normal distribution p-value: 0.0000000000000169719791396564</code></pre>
+</div>
+</div>
+
+<!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

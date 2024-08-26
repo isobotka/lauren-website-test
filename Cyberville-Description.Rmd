@@ -3,6 +3,8 @@ title: 'Cyberville Dataset Description'
 output:
   html_document:
     theme: united
+    toc: true
+    toc_float: true
 css: laurens_styles.css
 ---
 

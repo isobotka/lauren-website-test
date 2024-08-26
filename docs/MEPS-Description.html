@@ -29,6 +29,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -220,6 +223,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -229,25 +295,37 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background -->
+      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+      -->
       <a class="navbar-brand" href="index.html">Lauren's Awesome Textbook</a>
     </div>
+  <!--/.nav-collapse
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><a href="index.html">Home</a></li>
         <li><a href="Datasets-Home.html">Datasets</a></li>
         <li><a href="Intro-To-Coding-R.html">Intro to Coding and R</a></li>
       </ul>
-    </div><!--/.nav-collapse -->
+    </div>/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -268,46 +346,46 @@ class="section level3">
 <pre class="r"><code>tempData = read.csv(&quot;datasets/mepsData.csv&quot;)
 
 summary(tempData)</code></pre>
-<pre><code>&gt;   Observation      Person_ID         FluVaccination       Age       
-&gt;  Min.   :    1   Min.   :2.290e+09   Min.   :0.000   Min.   : 0.00  
-&gt;  1st Qu.: 7616   1st Qu.:2.295e+09   1st Qu.:0.000   1st Qu.:18.00  
-&gt;  Median :15231   Median :2.320e+09   Median :0.000   Median :38.00  
-&gt;  Mean   :15231   Mean   :2.310e+09   Mean   :0.429   Mean   :39.07  
-&gt;  3rd Qu.:22846   3rd Qu.:2.325e+09   3rd Qu.:1.000   3rd Qu.:59.00  
-&gt;  Max.   :30461   Max.   :2.330e+09   Max.   :1.000   Max.   :85.00  
-&gt;                                      NA&#39;s   :11290   NA&#39;s   :375    
-&gt;       Sex         RaceEthnicity   HealthInsurance NotAffordHealthCare
-&gt;  Min.   :0.0000   Min.   :1.000   Min.   :1.000   Min.   :0.0000     
-&gt;  1st Qu.:0.0000   1st Qu.:2.000   1st Qu.:1.000   1st Qu.:0.0000     
-&gt;  Median :0.0000   Median :2.000   Median :1.000   Median :0.0000     
-&gt;  Mean   :0.4791   Mean   :2.131   Mean   :1.482   Mean   :0.0473     
-&gt;  3rd Qu.:1.0000   3rd Qu.:2.000   3rd Qu.:2.000   3rd Qu.:0.0000     
-&gt;  Max.   :1.0000   Max.   :5.000   Max.   :3.000   Max.   :1.0000     
-&gt;                                                   NA&#39;s   :599        
-&gt;  FamIncome_Continuous  MentalHealth   FamIncome_Categorical
-&gt;  Min.   :     0       Min.   :1.000   Min.   :1.000        
-&gt;  1st Qu.: 26895       1st Qu.:1.000   1st Qu.:3.000        
-&gt;  Median : 56532       Median :2.000   Median :4.000        
-&gt;  Mean   : 75267       Mean   :2.044   Mean   :3.552        
-&gt;  3rd Qu.:103882       3rd Qu.:3.000   3rd Qu.:5.000        
-&gt;  Max.   :583219       Max.   :5.000   Max.   :5.000        
-&gt;  NA&#39;s   :14           NA&#39;s   :536                          
-&gt;  FamIncome_PercentPoverty  HealthStatus    HaveProvider     CensusRegion  
-&gt;  Min.   :   0.0           Min.   :1.000   Min.   :0.0000   Min.   :1.000  
-&gt;  1st Qu.: 137.7           1st Qu.:1.000   1st Qu.:1.0000   1st Qu.:2.000  
-&gt;  Median : 270.9           Median :2.000   Median :1.0000   Median :3.000  
-&gt;  Mean   : 365.4           Mean   :2.222   Mean   :0.7732   Mean   :2.734  
-&gt;  3rd Qu.: 494.1           3rd Qu.:3.000   3rd Qu.:1.0000   3rd Qu.:3.000  
-&gt;  Max.   :3020.2           Max.   :5.000   Max.   :1.0000   Max.   :4.000  
-&gt;  NA&#39;s   :14               NA&#39;s   :530     NA&#39;s   :1423     NA&#39;s   :375    
-&gt;  TotalHealthExpenditure HasHypertension  HasDiabetes           BMI       
-&gt;  Min.   :     0         Min.   :0.000   Min.   :0.00000   Min.   : 0.10  
-&gt;  1st Qu.:   213         1st Qu.:0.000   1st Qu.:0.00000   1st Qu.:23.70  
-&gt;  Median :  1179         Median :0.000   Median :0.00000   Median :27.30  
-&gt;  Mean   :  6094         Mean   :0.348   Mean   :0.09541   Mean   :28.15  
-&gt;  3rd Qu.:  4903         3rd Qu.:1.000   3rd Qu.:0.00000   3rd Qu.:31.90  
-&gt;  Max.   :807611         Max.   :1.000   Max.   :1.00000   Max.   :71.10  
-&gt;                         NA&#39;s   :7725    NA&#39;s   :202       NA&#39;s   :12209</code></pre>
+<pre><code>&gt;   Observation      Person_ID          FluVaccination       Age     
+&gt;  Min.   :    1   Min.   :2290001101   Min.   :0       Min.   : 0   
+&gt;  1st Qu.: 7616   1st Qu.:2294946102   1st Qu.:0       1st Qu.:18   
+&gt;  Median :15231   Median :2320170102   Median :0       Median :38   
+&gt;  Mean   :15231   Mean   :2310116491   Mean   :0       Mean   :39   
+&gt;  3rd Qu.:22846   3rd Qu.:2325003103   3rd Qu.:1       3rd Qu.:59   
+&gt;  Max.   :30461   Max.   :2329687103   Max.   :1       Max.   :85   
+&gt;                                       NA&#39;s   :11290   NA&#39;s   :375  
+&gt;       Sex        RaceEthnicity  HealthInsurance NotAffordHealthCare
+&gt;  Min.   :0.000   Min.   :1.00   Min.   :1.00    Min.   :0          
+&gt;  1st Qu.:0.000   1st Qu.:2.00   1st Qu.:1.00    1st Qu.:0          
+&gt;  Median :0.000   Median :2.00   Median :1.00    Median :0          
+&gt;  Mean   :0.479   Mean   :2.13   Mean   :1.48    Mean   :0          
+&gt;  3rd Qu.:1.000   3rd Qu.:2.00   3rd Qu.:2.00    3rd Qu.:0          
+&gt;  Max.   :1.000   Max.   :5.00   Max.   :3.00    Max.   :1          
+&gt;                                                 NA&#39;s   :599        
+&gt;  FamIncome_Continuous  MentalHealth FamIncome_Categorical
+&gt;  Min.   :     0       Min.   :1     Min.   :1.00         
+&gt;  1st Qu.: 26895       1st Qu.:1     1st Qu.:3.00         
+&gt;  Median : 56532       Median :2     Median :4.00         
+&gt;  Mean   : 75267       Mean   :2     Mean   :3.55         
+&gt;  3rd Qu.:103882       3rd Qu.:3     3rd Qu.:5.00         
+&gt;  Max.   :583219       Max.   :5     Max.   :5.00         
+&gt;  NA&#39;s   :14           NA&#39;s   :536                        
+&gt;  FamIncome_PercentPoverty  HealthStatus  HaveProvider   CensusRegion
+&gt;  Min.   :   0             Min.   :1     Min.   :0      Min.   :1    
+&gt;  1st Qu.: 138             1st Qu.:1     1st Qu.:1      1st Qu.:2    
+&gt;  Median : 271             Median :2     Median :1      Median :3    
+&gt;  Mean   : 365             Mean   :2     Mean   :1      Mean   :3    
+&gt;  3rd Qu.: 494             3rd Qu.:3     3rd Qu.:1      3rd Qu.:3    
+&gt;  Max.   :3020             Max.   :5     Max.   :1      Max.   :4    
+&gt;  NA&#39;s   :14               NA&#39;s   :530   NA&#39;s   :1423   NA&#39;s   :375  
+&gt;  TotalHealthExpenditure HasHypertension  HasDiabetes       BMI       
+&gt;  Min.   :     0         Min.   :0       Min.   :0.0   Min.   : 0     
+&gt;  1st Qu.:   213         1st Qu.:0       1st Qu.:0.0   1st Qu.:24     
+&gt;  Median :  1179         Median :0       Median :0.0   Median :27     
+&gt;  Mean   :  6094         Mean   :0       Mean   :0.1   Mean   :28     
+&gt;  3rd Qu.:  4903         3rd Qu.:1       3rd Qu.:0.0   3rd Qu.:32     
+&gt;  Max.   :807611         Max.   :1       Max.   :1.0   Max.   :71     
+&gt;                         NA&#39;s   :7725    NA&#39;s   :202   NA&#39;s   :12209</code></pre>
 <p>The data set mepsData is a longitudinal study which surveys and
 measures a particular group of people over time. In the case of MEPS,
 each household that is surveyed is surveyed a total of five times (or 5
@@ -392,6 +470,8 @@ out-of-pocket)<br />
 <!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
 
 
+</div>
+</div>
 
 </div>
 
@@ -424,6 +504,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

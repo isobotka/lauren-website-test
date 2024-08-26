@@ -1,9 +1,109 @@
 ---
-title: "Homepage of Lauren's Textbook"
-output: html_document
+title: "Homepage and TOC"
+output:
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+css: laurens_styles.css
 ---
 ```{r, child="_Global-Options.Rmd"}
 ```
 ***
 ***
-Click the hamburger menu or a link above!
+## Lessons
+
+### 01 Intro to Coding and R
+* [Webpage](Intro-To-Coding-R.html)
+
+### 02 Graphing in R
+* [Webpage](Graphing-In-R.html)
+
+### 03 CLT  
+* [Webpage](03b-CLT.html)  
+
+### 04a Binomial Test  
+* [Webpage](04a-Binomial-Test.html)  
+
+### 04b T Test  
+* [Webpage](04b-T-Test.html)  
+
+### 04c WMW-U   
+* [Webpage](04c-WMW-U.html)  
+
+### 04d ANOVA  
+* [Webpage](04d-ANOVA.html)  
+
+
+## Datasets
+[Datasets Home Page](Datasets-Home.html)  
+
+### Cyberville Families  
+* [Data dictionary](Cyberville-Description.html)  
+* Dataset:  [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.csv)
+
+
+### MEPS data
+* [Data dictionary](MEPS-Description.html)  
+* Dataset:  [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/mepsData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/mepsData.csv)
+
+
+### Occupational Prestige data
+* Data dictionary  
+* Dataset:  [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PrestigeData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PrestigeData.csv)  
+
+
+### Roulette Wheel
+* Exhibit 1: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/RouletteData_Ex1.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/RouletteData_Ex1.csv)
+* Exhibit 2: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/RouletteData_Ex2.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/RouletteData_Ex2.csv)
+
+
+### PGA Golf
+* Dataset: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PGAGolfData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PGAGolfData.csv)  
+
+
+### Ian Steele
+* Dataset: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/IanSteeleData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/IanSteeleData.csv)  
+   
+
+### Bikeshare
+* Dataset: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/BikeshareData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/BikeshareData.csv)  
+   
+
+### Vungle
+* Dataset: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/VungleData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/VungleData.csv)  
+  
+
+### Pilgrim Bank
+* Dataset: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PilgrimBankData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PilgrimBankData.csv)  
+   
+
+### Progressive Insurance
+* Dataset: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/ProgressiveInsuranceData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/ProgressiveInsuranceData.csv)  
+  
+
+### Lansink
+* Dataset: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/LansinkData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/LansinkData.csv)  
+  
+
+### Vanderbilt
+* Dataset: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/VanderbiltData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/VanderbiltData.csv)  
+  
+
+### BigEast Bank
+* Dataset: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/BigEastData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/BigEastData.csv)  
+
+
+### Pennsylvania Dominion
+* Dataset: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/MortgageData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/MortgageData.csv)  
+
+
+### Happiness
+* Dataset: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/GSS_HappyData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/GSS_HappyData.csv)  
+  
+
+### Select Collections
+* Training Data:  [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TrainData.txt)   [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TrainData.csv)  
+* Testing Data: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TestData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TestData.csv)  
+* Testing Data Paid Amount: [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TestPaid.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TestPaid.csv)  
+

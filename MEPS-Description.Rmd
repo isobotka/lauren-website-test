@@ -3,6 +3,9 @@ title: "MEPS Description"
 output:
   html_document:
     theme: united
+    toc: true
+    toc_float: true
+css: laurens_styles.css
 ---
 
 ```{r, child="_Global-Options.Rmd"}

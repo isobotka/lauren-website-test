@@ -309,21 +309,23 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background -->
+      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+      -->
       <a class="navbar-brand" href="index.html">Lauren's Awesome Textbook</a>
     </div>
+  <!--/.nav-collapse
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><a href="index.html">Home</a></li>
         <li><a href="Datasets-Home.html">Datasets</a></li>
         <li><a href="Intro-To-Coding-R.html">Intro to Coding and R</a></li>
       </ul>
-    </div><!--/.nav-collapse -->
+    </div>/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -338,8 +340,8 @@ div.tocify {
 
 <hr />
 <hr />
-<div id="download-r" class="section level3">
-<h3>Download R</h3>
+<div id="download-r" class="section level2">
+<h2>Download R</h2>
 <ol style="list-style-type: decimal">
 <li><p>R. The R Project for Statistical Computing. Available at: <a
 href="https://cran.r-project.org/"
@@ -354,8 +356,8 @@ Windows</p></li>
 </ol>
 <hr />
 </div>
-<div id="starting-r" class="section level3">
-<h3>Starting R</h3>
+<div id="starting-r" class="section level2">
+<h2>Starting R</h2>
 <p>Once you have installed both R and RStudio, you will be able to start
 the RStudio application. The console, where you can begin to execute
 commands, is in the bottom left containing the <code>&gt;</code></p>
@@ -365,8 +367,8 @@ Available <a
 href="https://onlinelibrary-wiley-com.proxy1.lib.uwo.ca/doi/epdf/10.1002/9781118448908.ch2">here</a></p>
 <hr />
 </div>
-<div id="keeping-your-code-clean" class="section level3">
-<h3>Keeping Your Code Clean</h3>
+<div id="keeping-your-code-clean" class="section level2">
+<h2>Keeping Your Code Clean</h2>
 <p>It is important when sharing your code and for your own sanity to
 document your code well. R will skip any line of code that begins with a
 ‘#’</p>
@@ -379,8 +381,8 @@ x</code></pre>
 <pre><code>&gt; [1] 4</code></pre>
 <hr />
 </div>
-<div id="r-as-a-calculator" class="section level3">
-<h3>R as a Calculator</h3>
+<div id="r-as-a-calculator" class="section level2">
+<h2>R as a Calculator</h2>
 <p>The basic operations are “*, +, -, /, ^”</p>
 <pre class="r"><code>2+3 </code></pre>
 <pre><code>&gt; [1] 5</code></pre>
@@ -394,8 +396,8 @@ x</code></pre>
 <pre><code>&gt; [1] 32</code></pre>
 <hr />
 </div>
-<div id="variables" class="section level3">
-<h3>Variables</h3>
+<div id="variables" class="section level2">
+<h2>Variables</h2>
 <p>You can store results in variables and use them in calculations. You
 can print the value of a variable by using it as a command.</p>
 <pre class="r"><code>x = 2+3
@@ -420,23 +422,34 @@ x</code></pre>
 <p>Look <a
 href="https://statisticsglobe.com/assignment-operators-in-r">here</a>
 for an explanation of the differences between “=” and “&lt;-”.</p>
+<div id="variable-types" class="section level3">
+<h3>Variable Types</h3>
+<p><strong>Character:</strong> free text, a.k.a. string<br />
+<strong>Factor:</strong> Categorical values; actual values may be text
+(North/South/East/West) or numbers (1/2/3/4)<br />
+<strong>Logical:</strong> Binary (TRUE/FALSE)<br />
+<strong>Integer:</strong> Whole numbers (1L/2L/3L/4L, the letter ‘L’
+declares these as Integers)<br />
+<strong>Numeric:</strong> Decimal Numbers (1.5/2.5/3.5/4.5)</p>
 <hr />
 </div>
-<div id="vectors" class="section level3">
-<h3>Vectors</h3>
-<p>A vector is a type of list. It stores a collection of any datatype.
-You create vectors by using the c() function (concatenate).</p>
+</div>
+<div id="vectors" class="section level2">
+<h2>Vectors</h2>
+<p>A vector stores a collection of any datatype. You create vectors by
+using the c() function (concatenate).</p>
 <pre class="r"><code># A vector with 4 entries
 c(1, 2, 3, 4)</code></pre>
 <pre><code>&gt; [1] 1 2 3 4</code></pre>
-<pre class="r"><code># You can store vectors in variables.
-x = c(1.1, 0.0, 3.14, 2.718)
+<pre class="r"><code>x = c(1.1, 0.0, 3.14, 2.718)
 x</code></pre>
 <pre><code>&gt; [1] 1.100 0.000 3.140 2.718</code></pre>
-<pre class="r"><code># Arrow works too.
-x &lt;- c(2,4,6)
-x</code></pre>
-<pre><code>&gt; [1] 2 4 6</code></pre>
+<p>One way to access specific values within a vector is use the index of
+that value</p>
+<pre class="r"><code>x[1]</code></pre>
+<pre><code>&gt; [1] 1.1</code></pre>
+<pre class="r"><code>x[4]</code></pre>
+<pre><code>&gt; [1] 2.718</code></pre>
 <p>Sequences of integers are so common that there is a shortcut for
 making them.</p>
 <pre class="r"><code>1:4</code></pre>
@@ -455,12 +468,21 @@ x</code></pre>
 &gt; [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40</code></pre>
 <hr />
 </div>
-<div id="functions" class="section level3">
-<h3>Functions</h3>
+<div id="arrays-matrices-data-frames" class="section level2">
+<h2>Arrays, Matrices, Data Frames</h2>
+<p>Stuff about arrays and matrices</p>
+<hr />
+</div>
+<div id="data-tables" class="section level2">
+<h2>Data Tables</h2>
+<p>data.tables are hype</p>
+<hr />
+</div>
+<div id="functions" class="section level2">
+<h2>Functions</h2>
 <p>R has all the functions you know and love. (Most of them can be used
 on vectors.)</p>
-<pre class="r"><code># We&#39;ll start with functions numbers
-sin(1)</code></pre>
+<pre class="r"><code>sin(1)</code></pre>
 <pre><code>&gt; [1] 0.841471</code></pre>
 <pre class="r"><code>sin(1.4)</code></pre>
 <pre><code>&gt; [1] 0.9854497</code></pre>
@@ -471,7 +493,7 @@ pi</code></pre>
 <pre><code>&gt; [1] 3.141593</code></pre>
 <pre class="r"><code>sin(pi/2)</code></pre>
 <pre><code>&gt; [1] 1</code></pre>
-<pre class="r"><code># The exponential function is given by &#39;exp&#39;.
+<pre class="r"><code># The exponential function
 exp(0)</code></pre>
 <pre><code>&gt; [1] 1</code></pre>
 <pre class="r"><code>exp(1)</code></pre>
@@ -482,7 +504,7 @@ factorial(8)</code></pre>
 <pre class="r"><code># n choose k 
 factorial(8)/(factorial(3)*factorial(8-3))</code></pre>
 <pre><code>&gt; [1] 56</code></pre>
-<pre class="r"><code># n choose k: a built in function!
+<pre class="r"><code># a built in function!
 choose(8,3)</code></pre>
 <pre><code>&gt; [1] 56</code></pre>
 <p>Sum and mean functions on vectors. They take the sum and average
@@ -514,24 +536,60 @@ mean(Y, na.rm=FALSE)     </code></pre>
 <pre class="r"><code># Changing the argument to TRUE
 mean(Y, na.rm=TRUE)</code></pre>
 <pre><code>&gt; [1] 5.142857</code></pre>
+<div id="custom-functions" class="section level3">
+<h3>Custom Functions</h3>
+<p>Make your own</p>
 <hr />
 </div>
-<div id="loops-and-if-statements" class="section level3">
-<h3>Loops and if statements</h3>
+</div>
+<div id="if-statements-and-loops" class="section level2">
+<h2>If statements and Loops</h2>
+<p>R supports logical conditions:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Operator</th>
+<th>Name</th>
+<th align="center">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">==</td>
+<td>Equal</td>
+<td align="center">x == y</td>
+</tr>
+<tr class="even">
+<td align="center">!=</td>
+<td>Not equal</td>
+<td align="center">x != y</td>
+</tr>
+<tr class="odd">
+<td align="center">&gt;</td>
+<td>Greater than</td>
+<td align="center">x &gt; y</td>
+</tr>
+<tr class="even">
+<td align="center">&lt;</td>
+<td>Less than</td>
+<td align="center">x &lt; y</td>
+</tr>
+<tr class="odd">
+<td align="center">&gt;=</td>
+<td>Greater than or equal to</td>
+<td align="center">x &gt;= y</td>
+</tr>
+<tr class="even">
+<td align="center">&lt;=</td>
+<td>Less than or equal to</td>
+<td align="center">x &lt;= y</td>
+</tr>
+</tbody>
+</table>
 <p>for do while while if</p>
-<hr />
 </div>
-<div id="arrays-and-matrices" class="section level3">
-<h3>Arrays and Matrices</h3>
-<p>Stuff about arrays and matrices</p>
-<hr />
-</div>
-<div id="data.tables" class="section level3">
-<h3>Data.tables</h3>
-<p>Data.tables are hype</p>
-</div>
-<div id="getting-help" class="section level3">
-<h3>Getting Help</h3>
+<div id="getting-help" class="section level2">
+<h2>Getting Help</h2>
 <p>R and RStudio have complete documentation on all R functions. The
 lower right pane in RStudio has a help tab you can use. The help
 contains a lot of information, so you will have to learn to filter out

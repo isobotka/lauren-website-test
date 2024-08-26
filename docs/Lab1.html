@@ -311,21 +311,23 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background -->
+      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+      -->
       <a class="navbar-brand" href="index.html">Lauren's Awesome Textbook</a>
     </div>
+  <!--/.nav-collapse
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><a href="index.html">Home</a></li>
         <li><a href="Datasets-Home.html">Datasets</a></li>
         <li><a href="Intro-To-Coding-R.html">Intro to Coding and R</a></li>
       </ul>
-    </div><!--/.nav-collapse -->
+    </div>/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -391,20 +393,20 @@ tail(data)</code></pre>
 a summary of the data will provide summary statistics on the
 data.frame.</p>
 <pre class="r"><code>summary(data)</code></pre>
-<pre><code>&gt;       TYPE          PERSONS          CHILDREN          INCOME      
-&gt;  Min.   :1.000   Min.   : 2.000   Min.   :0.0000   Min.   :-22166  
-&gt;  1st Qu.:1.000   1st Qu.: 2.000   1st Qu.:0.0000   1st Qu.: 18300  
-&gt;  Median :1.000   Median : 3.000   Median :1.0000   Median : 34550  
-&gt;  Mean   :1.431   Mean   : 3.137   Mean   :0.9479   Mean   : 41336  
-&gt;  3rd Qu.:1.000   3rd Qu.: 4.000   3rd Qu.:2.0000   3rd Qu.: 55828  
-&gt;  Max.   :3.000   Max.   :25.000   Max.   :9.0000   Max.   :451887  
-&gt;      REGION        EDUCATION    
-&gt;  Min.   :1.000   Min.   :31.00  
-&gt;  1st Qu.:2.000   1st Qu.:39.00  
-&gt;  Median :3.000   Median :39.00  
-&gt;  Mean   :2.526   Mean   :39.42  
-&gt;  3rd Qu.:3.000   3rd Qu.:41.00  
-&gt;  Max.   :4.000   Max.   :46.00</code></pre>
+<pre><code>&gt;       TYPE         PERSONS         CHILDREN        INCOME           REGION    
+&gt;  Min.   :1.00   Min.   : 2.00   Min.   :0.00   Min.   :-22166   Min.   :1.00  
+&gt;  1st Qu.:1.00   1st Qu.: 2.00   1st Qu.:0.00   1st Qu.: 18300   1st Qu.:2.00  
+&gt;  Median :1.00   Median : 3.00   Median :1.00   Median : 34550   Median :3.00  
+&gt;  Mean   :1.43   Mean   : 3.14   Mean   :0.95   Mean   : 41336   Mean   :2.53  
+&gt;  3rd Qu.:1.00   3rd Qu.: 4.00   3rd Qu.:2.00   3rd Qu.: 55828   3rd Qu.:3.00  
+&gt;  Max.   :3.00   Max.   :25.00   Max.   :9.00   Max.   :451887   Max.   :4.00  
+&gt;    EDUCATION   
+&gt;  Min.   :31.0  
+&gt;  1st Qu.:39.0  
+&gt;  Median :39.0  
+&gt;  Mean   :39.4  
+&gt;  3rd Qu.:41.0  
+&gt;  Max.   :46.0</code></pre>
 </div>
 <div id="step-4.-assign-appropriate-variable-types"
 class="section level3">
@@ -472,20 +474,20 @@ data$REGION = factor(data$REGION, levels = c(1,2,3,4), label = c(&quot;NORTH&quo
 
 # Now we can view the summary of our data again
 summary(data)</code></pre>
-<pre><code>&gt;                   TYPE          PERSONS          CHILDREN          INCOME      
-&gt;  Husband-wife family:33403   Min.   : 2.000   Min.   :0.0000   Min.   :-22166  
-&gt;  Male-head family   : 2054   1st Qu.: 2.000   1st Qu.:0.0000   1st Qu.: 18300  
-&gt;  Female-head family : 8429   Median : 3.000   Median :1.0000   Median : 34550  
-&gt;                              Mean   : 3.137   Mean   :0.9479   Mean   : 41336  
-&gt;                              3rd Qu.: 4.000   3rd Qu.:2.0000   3rd Qu.: 55828  
-&gt;                              Max.   :25.000   Max.   :9.0000   Max.   :451887  
-&gt;    REGION        EDUCATION    
-&gt;  NORTH:10149   Min.   :31.00  
-&gt;  EAST :10390   1st Qu.:39.00  
-&gt;  SOUTH:13457   Median :39.00  
-&gt;  WEST : 9890   Mean   :39.42  
-&gt;                3rd Qu.:41.00  
-&gt;                Max.   :46.00</code></pre>
+<pre><code>&gt;                   TYPE          PERSONS         CHILDREN        INCOME      
+&gt;  Husband-wife family:33403   Min.   : 2.00   Min.   :0.00   Min.   :-22166  
+&gt;  Male-head family   : 2054   1st Qu.: 2.00   1st Qu.:0.00   1st Qu.: 18300  
+&gt;  Female-head family : 8429   Median : 3.00   Median :1.00   Median : 34550  
+&gt;                              Mean   : 3.14   Mean   :0.95   Mean   : 41336  
+&gt;                              3rd Qu.: 4.00   3rd Qu.:2.00   3rd Qu.: 55828  
+&gt;                              Max.   :25.00   Max.   :9.00   Max.   :451887  
+&gt;    REGION        EDUCATION   
+&gt;  NORTH:10149   Min.   :31.0  
+&gt;  EAST :10390   1st Qu.:39.0  
+&gt;  SOUTH:13457   Median :39.0  
+&gt;  WEST : 9890   Mean   :39.4  
+&gt;                3rd Qu.:41.0  
+&gt;                Max.   :46.0</code></pre>
 <hr />
 </div>
 </div>
@@ -507,7 +509,7 @@ n_female_fam = nrow(data[indices,])
 # Calculating the proportion
 prop_female_fam = n_female_fam/n_fam
 prop_female_fam</code></pre>
-<pre><code>&gt; [1] 0.1920658</code></pre>
+<pre><code>&gt; [1] 0.192</code></pre>
 </div>
 <div id="b-average-number-of-children-per-family"
 class="section level4">
@@ -518,17 +520,17 @@ n_total_children = sum(data$CHILDREN)
 # Recall we have n_total_fam from a)
 avg_n_children = n_total_children/n_fam
 avg_n_children</code></pre>
-<pre><code>&gt; [1] 0.9479333</code></pre>
+<pre><code>&gt; [1] 0.948</code></pre>
 <pre class="r"><code># or...
 mean(data$CHILDREN)</code></pre>
-<pre><code>&gt; [1] 0.9479333</code></pre>
+<pre><code>&gt; [1] 0.948</code></pre>
 </div>
 <div id="c-standard-deviation-of-the-number-of-children-per-family"
 class="section level4">
 <h4>c) Standard deviation of the number of children per family</h4>
 <pre class="r"><code># R has a function for that!
 sd(data$CHILDREN)</code></pre>
-<pre><code>&gt; [1] 1.157211</code></pre>
+<pre><code>&gt; [1] 1.16</code></pre>
 </div>
 <div
 id="d-proportion-of-heads-of-household-who-did-not-receive-a-high-school-diploma"
@@ -546,7 +548,7 @@ n_no_diploma = nrow(data[indices,])
 # Finding the proportion
 prop_no_diploma = n_no_diploma/n_fam
 prop_no_diploma</code></pre>
-<pre><code>&gt; [1] 0.2115025</code></pre>
+<pre><code>&gt; [1] 0.212</code></pre>
 </div>
 <div
 id="e-proportion-of-families-whos-head-received-a-bachelors-or-masters-degree-and-have-one-child"
@@ -560,7 +562,7 @@ n_fam_of_interest = nrow(data[indices,])
 
 prop_fam_of_interest = n_fam_of_interest/n_fam
 prop_fam_of_interest</code></pre>
-<pre><code>&gt; [1] 0.03707333</code></pre>
+<pre><code>&gt; [1] 0.0371</code></pre>
 </div>
 </div>
 </div>

@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>t-Test</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="laurens_styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      -->
+      <a class="navbar-brand" href="index.html">Lauren's Awesome Textbook</a>
+    </div>
+  <!--/.nav-collapse
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Datasets-Home.html">Datasets</a></li>
+        <li><a href="Intro-To-Coding-R.html">Intro to Coding and R</a></li>
+      </ul>
+    </div>/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">t-Test</h1>
+
+</div>
+
+
+<p>Learning objectives of this asynchronous lesson:</p>
+<ul>
+<li>Understanding when to use the t-test<br />
+</li>
+<li>Evaluate whether the underlying assumptions of a t-test are
+present</li>
+<li>Write an appropriate null hypothesis, apply appropriate t-test, and
+interpret the p-value</li>
+</ul>
+<div id="data-set" class="section level2">
+<h2>Data set</h2>
+<p>For this set of examples, I will use the Cyberville families data.
+Recall that this is a population dataset …</p>
+<pre class="r"><code>data &lt;- read.table(url(&quot;https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt&quot;), 
+                        header = TRUE)
+
+## suppress scientific notation for ease of reading numbers
+options(scipen=99)  </code></pre>
+</div>
+<div id="inference-about-a-population-parameter" class="section level2">
+<h2>Inference about a population parameter</h2>
+<p>As the first step in developing a one-sample t-test, we will start
+with understanding inference about a population parameter using a sample
+estimate.</p>
+<p>For this section, we will focus on the question: What is the average
+income in Cyberville?</p>
+<p>In order to answer that question, researchers surveyed a random
+sample of 400 people.</p>
+<p>With that random sample, we will calculate the</p>
+<ul>
+<li>sample average, an estimate of the population average;<br />
+</li>
+<li>sample standard deviation, an estimate of the population standard
+deviation;</li>
+<li>standard error, which characterizes the uncertainty in the sample
+average associated with the random sampling process;<br />
+</li>
+<li>95% confidence interval, relying on the Normal approximation, such
+that there is a 95% probability that the true population average income
+is within this interval</li>
+</ul>
+<pre class="r"><code># To ensure that this page will produce the same results every time, we will set the random number seed. 
+set.seed(11)  
+
+n &lt;- 400   # sample size
+select.obs &lt;- sample(1:nrow(data), n)  # from a list of numbers (1, 2, 3, ... ), select n of them at random
+# from the original data frame, name a new dataset only keeping the observations in the sample
+study.data &lt;- data[select.obs, ]    
+
+# Calculate the sample mean of Income
+sample.avg &lt;- mean(study.data$INCOME)
+
+# Calculate the sample sd of Income
+sample.sd &lt;- sd(study.data$INCOME)
+
+# Calculate the standard error for the study where n = 400
+se &lt;- sample.sd / sqrt(n)
+
+# Use the se and the Normal distribution to calculate the 95% CI
+lowerCI = sample.avg + qnorm(0.025, mean = 0, sd = 1) * se
+upperCI = sample.avg + qnorm(0.975, mean = 0, sd = 1) * se
+
+print(cbind(sample.avg, lowerCI, upperCI))</code></pre>
+<pre><code>&gt;      sample.avg lowerCI upperCI
+&gt; [1,]      41750   38744   44757</code></pre>
+<p>There is a 95% probability that the true population average income is
+within the interval $38,744 to $44,757.</p>
+</div>
+<div id="one-sample-two-sided-t-test" class="section level2">
+<h2>One-sample two-sided t-test</h2>
+<p>Let’s consider the question: Is the average income in Cyberville
+consistent with the national average of $47,500?</p>
+<p>Further consider a simple alternative hypothesis: the average income
+in Cyberville could <em>either</em> be greater than or less than the
+national average. This is a “two-sided” alternative hypothesis.</p>
+<p>Now let’s use a one-sample two-sided t-test to calculate the
+probability of observing the mean of $41,771 from a random sample of
+400, by random chance, when the truth is actually $47,500.</p>
+<pre class="r"><code># One-sample, two-sided, t-test
+
+# H0: Mean income = 45000
+t.test(x = study.data$INCOME, 
+       alternative = &quot;two.sided&quot;,    # this is the default and so it wasn&#39;t required to specify
+       mu = 47500)                   # the null hypothesis; average income = $47,500</code></pre>
+<pre><code>&gt; 
+&gt;   One Sample t-test
+&gt; 
+&gt; data:  study.data$INCOME
+&gt; t = -4, df = 399, p-value = 0.0002
+&gt; alternative hypothesis: true mean is not equal to 47500
+&gt; 95 percent confidence interval:
+&gt;  38735 44766
+&gt; sample estimates:
+&gt; mean of x 
+&gt;     41750</code></pre>
+<p>Observe the p-value is 0.0002.<br />
+Therefore, we reject the null hypothesis that the average income in
+Cyberville is $47,500.</p>
+<p>The t-test output in R also reports the 95% confidence interval. The
+interval reported by R is slightly different than what we calculated
+because the R function, very properly, uses the t distribution. Do not
+worry about this.</p>
+<p>More importantly, notice that the implications from performing this
+test (rejecting the null hypothesis) is consistent with the 95%
+confidence interval we already calculated. We had already calculated,
+that there is a 95% probability that the true population average income
+is within the interval $38,744 to $44,757. Because the null hypothesis
+of this one-sample t-test, $47,500, is not within that interval, we know
+to reject the null hypothesis.</p>
+<p>This is another example of the equivalence of confidence intervals
+and p-values.</p>
+<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Similarly, we can calculate the probability of $47,500 or something
+less likely than $47,500 being the true population mean using the
+distribution of the sample mean.</p>
+<pre class="r"><code># Using the sample distribution, what is the probability of $45,000 or greater being the true population mean?
+1 - pnorm(47500, mean = sample.avg, sd = se)</code></pre>
+<pre><code>&gt; [1] 0.0000891</code></pre>
+<pre class="r"><code># Because we are doing a *two-sided* t-test and the Normal distribution is symmetrical
+# we need to double the associated with the probability of $45,000 or greater
+
+# The p-value is then
+(1 - pnorm(47500, mean = sample.avg, sd = se)) * 2</code></pre>
+<pre><code>&gt; [1] 0.000178</code></pre>
+<p>Observe that using the distribution of uncertainty around the sample
+mean (using Normal approximation), we also calculate the p-value of the
+one-sample, two-sided, t-test to be 0.0002.</p>
+</div>
+<div id="two-sample-two-sided-t-test" class="section level2">
+<h2>Two-sample two-sided t-test</h2>
+<div id="example-with-interpretation" class="section level3">
+<h3>Example with interpretation</h3>
+<p>Let’s consider a new question: Do families with children have the
+same average income as families without children?</p>
+<p>This is now a “two-sample” problem where the families with children
+represent one sample, and the families without children represent the
+other sample. These two samples are independent of each other so this is
+also called a independent samples t-test, contrasting it from the paired
+t-test in which samples are not independent from each other.</p>
+<p>This dataset reports the number of children in a family, so we need
+to create a new variable dividing the population into just two
+groups.</p>
+<pre class="r"><code># Create a variable identifying whether or not a family has children
+study.data$HasChildren &lt;- 0 # initialize the variable
+study.data$HasChildren[ study.data$CHILDREN &gt; 0 ] &lt;- 1 # assign a 1 if CHILDREN &gt;0</code></pre>
+<p>Alternative hypothesis: the average income of families with children
+could <em>either</em> be greater than or less than the average income of
+families without children. This is a “two-sided” alternative
+hypothesis.</p>
+<p>Now let’s use a two-sample two-sided t-test to calculate the
+probability of observing, by random chance from a random sample of 400,
+the specific group means when the truth is actually that both groups
+have the same average income.</p>
+<pre class="r"><code># Two-sample, two-sided, t-test
+# For transparency, I list two of the default settings in the specification of the test.
+
+# H0: Families with and without children have the same average income
+t.test(study.data$INCOME ~ study.data$HasChildren,   
+       var.equal = FALSE,           # Default setting: not required to specify
+       alternative = &quot;two.sided&quot;)   # Default setting: not required to specify</code></pre>
+<pre><code>&gt; 
+&gt;   Welch Two Sample t-test
+&gt; 
+&gt; data:  study.data$INCOME by study.data$HasChildren
+&gt; t = 2, df = 388, p-value = 0.03
+&gt; alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+&gt; 95 percent confidence interval:
+&gt;    493 12552
+&gt; sample estimates:
+&gt; mean in group 0 mean in group 1 
+&gt;           45142           38620</code></pre>
+<p>Observe the p-value is 0.03. Therefore, we reject the null hypothesis
+that the average income is the same for families with and without
+children.</p>
+<p>The t-test output in R also reports the group means. As a best
+practice, I recommend that you calculate these before performing the
+test. Then, if they do not match, you know that something may be wrong
+with how you specified the t-test.</p>
+<p>In addition, the t-test output reports the 95% confidence interval.
+This interval is the confidence interval for the difference between the
+two groups. An equivalent way of writing the null hypothesis is that the
+difference between the two group is zero. This is reporting that there
+is a 95% probability that the true difference in average income between
+people with and without children is between $492.70 and $12,552.30.</p>
+<p>Notice again that the implications from performing this test
+(rejecting the null hypothesis) is consistent with the 95% confidence
+interval for the difference. This 95% interval indicates that there is a
+less than 5% chance that the true difference between these groups
+contains zero (no difference).</p>
+</div>
+<div id="theory" class="section level3">
+<h3>Theory</h3>
+<p>There are other ways to gain this same insight. For example, we can
+calculate the average income for each group, the standard error and the
+95% confidence intervals for those estimates.</p>
+<pre class="r"><code># Calculate the group average income, sd of income, se, and 95% CI
+income.summary &lt;- t(aggregate(study.data$INCOME ~ study.data$HasChildren, 
+                          FUN=function(x) {
+                              c(avg = mean(x), 
+                                n = length(x), 
+                                var = var(x),  
+                                sd = sd(x), 
+                                se = sd(x)/sqrt(length(x)),
+                                lower95 = mean(x) + qnorm(0.025)*sd(x)/sqrt(length(x)), 
+                                upper95 = mean(x) + qnorm(0.975)*sd(x)/sqrt(length(x))
+                                )
+                          }
+              ))
+
+income.summary</code></pre>
+<pre><code>&gt;                                 [,1]      [,2]
+&gt; study.data$HasChildren             0         1
+&gt; study.data$INCOME.avg          45142     38620
+&gt; study.data$INCOME.n              192       208
+&gt; study.data$INCOME.var     1012408474 859609963
+&gt; study.data$INCOME.sd           31818     29319
+&gt; study.data$INCOME.se            2296      2033
+&gt; study.data$INCOME.lower95      40641     34635
+&gt; study.data$INCOME.upper95      49643     42604</code></pre>
+<p>The Central Limit Theorem tells us that the uncertainty around the
+sample means is Normally distributed with standard deviations equal to
+the standard error.</p>
+<p>Because the sum or difference of two Normal distributions is also
+Normally distributed, we can calculate the distribution of the
+difference in average incomes between the two groups.</p>
+<pre class="r"><code>means &lt;- income.summary[&quot;study.data$INCOME.avg&quot;, ]
+
+Mean.Diff &lt;- income.summary[&quot;study.data$INCOME.avg&quot;, 1] -       # avg income for HasChildren == 0
+                  income.summary[&quot;study.data$INCOME.avg&quot;, 2]    # avg income for HasChildren == 1
+
+# The variance of a difference between two random variables is the sum of their variance (less any covariance, which is zero when the two RV are independent, as they are here)
+SE.Diff &lt;- sqrt(
+                  income.summary[&quot;study.data$INCOME.se&quot;, 1]^2       # se^2 HasChildren == 0
+                    + income.summary[&quot;study.data$INCOME.se&quot;, 2]^2   # se^2 HasChildren == 1
+                  )    # sqrt the sum to return the variance to a standard deviation
+
+# calculate and print the 95% confidence interval around the difference
+lower95 = qnorm(0.025, mean = Mean.Diff, sd = SE.Diff)
+upper95 = qnorm(0.975, mean = Mean.Diff, sd = SE.Diff)
+print(cbind(Mean.Diff, lower95, upper95))</code></pre>
+<pre><code>&gt;                       Mean.Diff lower95 upper95
+&gt; study.data$INCOME.avg      6522     512   12533</code></pre>
+<pre class="r"><code># Calculate the probability that the truth is zero or something less likely than zero given this observation
+# this is the p-value of the two-sample, two-sided, t-test
+pnorm(0, mean = Mean.Diff, sd = SE.Diff)*2</code></pre>
+<pre><code>&gt; [1] 0.0334</code></pre>
+<p>Observe that using the distribution of uncertainty around the
+difference in the sample means (using Normal approximation), we also
+calculate the p-value of the two-sample, two-sided, t-test to be
+0.03.</p>
+<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<!--
+### Visualizing differences between 2 groups
+
+Finally, we can visually present the average income for each group with error bars.
+
+
+```r
+# Draw a bar graph
+par(mgp = c(3, 0.6, 0)) # Adjusting the distance of the y-axis labels from the axis
+barplot_obj <- barplot(income.summary["study.data$INCOME.avg", ], 
+                         main = "Average Income of Families With and Without Children",
+                         ylab = "Average Income ($)",
+                         names.arg = c("No Children", "Has Children"),
+                         ylim = c(0, 60000),      # sets the bounds on the y-axis
+                         las = 1 )                # orients the y-axis labels to read horizontally)
+
+# Add error bars
+arrows(x0 = barplot_obj, y0 = income.summary["study.data$INCOME.lower95", ],      # position of the upper end of bars
+       x1 = barplot_obj, y1 = income.summary["study.data$INCOME.upper95", ],       # position of the lower end of bars
+       angle = 90, code = 3, length = 0.1)                                        # features of the error bars
+```
+
+<img src="04b-T-Test_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+
+If the error bars of the two groups are not overlapping, then you can surely reject the null hypothesis that the two averages are equal. However, 95% confidence interval bars of two groups will overlap until the p-value is about 0.01.
+-->
+</div>
+</div>
+<div id="step-by-step-independent-samples-t-test"
+class="section level2">
+<h2>Step-by-Step independent samples t-test</h2>
+<p>Prior to performing a independent samples t-test, it is important to
+know whether the underlying assumptions of a t-test are present. If they
+are not, it may not be appropriate to perform a t-test at all. While R
+will always report a p-value when you try to compare the means of two
+groups, that p-value might be completely meaningless if these conditions
+do not hold.</p>
+<div id="assumptions-of-an-independant-samples-t-test"
+class="section level3">
+<h3>Assumptions of an independant samples t-test</h3>
+<p>There are four key assumptions of a t-test</p>
+<ul>
+<li>Outcome is a continuous measure</li>
+<li>Independent observations: The data need to come from a random sample
+where each observation is independent of other observations<br />
+</li>
+<li>Normality of the underlying population distributions</li>
+<li>Homogeneity of variance: both groups have the same variance</li>
+</ul>
+</div>
+<div id="step-by-step-instructions" class="section level3">
+<h3>Step-by-step instructions</h3>
+<p>Let’s walk though all the steps of a independent samples t-test for a
+second example.</p>
+<p>Consider the question: Do families with at least some college
+education have the same average income as families without any
+college?</p>
+<p>First, we need to create a variable for whether people have Any
+College:</p>
+<pre class="r"><code># Create a variable identifying whether or not the survey respondent has any college
+study.data$HasCollege &lt;- 0 # initialize the variable
+study.data$HasCollege[ study.data$EDUCATION &gt;= 40 ] &lt;- 1 # assign a 1 if Any College</code></pre>
+<div id="step-1.-identify-the-null-and-alternative-hypothesis"
+class="section level4">
+<h4>Step 1. Identify the null and alternative hypothesis</h4>
+<ul>
+<li><p>H0: Average income for people without any college is
+<em>equal</em> to the average income for people with college</p></li>
+<li><p>HA: Average income for people without any college is <em>not
+equal</em> to the average income for people with college</p>
+<ul>
+<li>This is a two-sided alternative hypothesis.</li>
+</ul></li>
+</ul>
+</div>
+<div id="step-2.-confirm-assumption-1" class="section level4">
+<h4>Step 2. Confirm assumption 1</h4>
+<ul>
+<li>Income is a continuous variable</li>
+</ul>
+</div>
+<div id="step-3.-confirm-assumption-2" class="section level4">
+<h4>Step 3. Confirm assumption 2</h4>
+<ul>
+<li><p>This assumption requires understanding how the data were
+collected.</p></li>
+<li><p>Our data are a random sample of the whole population so any
+relationships between households would be randomly occurring within the
+data. Therefore, the observations are independent.</p></li>
+</ul>
+</div>
+<div id="step-4.-consider-assumption-3" class="section level4">
+<h4>Step 4. Consider assumption 3</h4>
+<p>There are several reasonable approaches for evaluating whether a
+distribution is Normal, but some are very sensitive and will declare
+data not Normally distributed when it is really good enough for a
+t-test.</p>
+<ul>
+<li>Histogram, potentially overlaying a Normal distribution<br />
+</li>
+<li>Q-Q plot<br />
+</li>
+<li>Lilliefors Test</li>
+<li>Shapiro-Wilk test</li>
+</ul>
+<p>The ‘nortest’ package in R has numerous statistical tests that seek
+to evaluate whether data are Normally distributed. Each test has its own
+strengths and weaknesses. In general, these tests are very sensitive
+compared to what is actually acceptable for a t-test. It is recommended
+that histograms and QQ plots be used when the sample size is more than
+50 observations and Shapiro-Wilk test is used for smaller sample
+sizes.</p>
+<div id="histograms" class="section level5">
+<h5>Histograms</h5>
+<p>We can evaluate the distribution of income in both groups using a
+histogram. From our prior lesson, we expect that the distribution of
+income may be right skewed.</p>
+<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-15-1.png" width="672" /><img src="04b-T-Test_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
+<p>The No College income histogram is clearly right skewed. Neither
+distribution has any observations less than $0 and so neither
+distribution has a complete left tail.</p>
+</div>
+<div id="q-q-plot" class="section level5">
+<h5>Q-Q plot</h5>
+<p>A Q-Q plot presents the percentiles of the data vs. the percentiles
+of a standard Normal distribution.</p>
+<p>When data are Normally distributed, a Q-Q plot will indicate the
+points form a straight line within the bounds of the blue ribbon.</p>
+<pre><code>&gt; Loading required package: carData</code></pre>
+<pre class="r"><code>## QQ plot
+# library(car)  ## the QQ plot in the car package is nice
+qqPlot(study.data$INCOME[study.data$HasCollege == 0], 
+       main = &quot;QQ plot for No College&quot;)</code></pre>
+<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<pre><code>&gt; [1] 174 197</code></pre>
+<pre class="r"><code>qqPlot(study.data$INCOME[study.data$HasCollege == 1], 
+       main = &quot;QQ plot for Some College&quot;)</code></pre>
+<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
+<pre><code>&gt; [1] 83 16</code></pre>
+<p>When data are Normally distributed, a Q-Q plot will indicate the
+points form a straight line within the bounds of the blue ribbon.</p>
+</div>
+<div id="statisical-evaluations" class="section level5">
+<h5>Statisical evaluations</h5>
+<p>Numerous formal statistical tests exists to evaluate whether data are
+Normally distributed.</p>
+<p>For each of these tests, the null hypothesis is that the data are
+Normally distributed. Therefore, when the p-value is below 0.05,
+rejecting the null hypothesis indicates that the data are not Normally
+distributed.</p>
+<pre class="r"><code>## Lilliefors Test
+library(nortest) 
+# Null hypothesis:  
+lillie.test(study.data$INCOME[study.data$HasCollege == 0])</code></pre>
+<pre><code>&gt; 
+&gt;   Lilliefors (Kolmogorov-Smirnov) normality test
+&gt; 
+&gt; data:  study.data$INCOME[study.data$HasCollege == 0]
+&gt; D = 0.1, p-value = 0.0000001</code></pre>
+<pre class="r"><code>lillie.test(study.data$INCOME[study.data$HasCollege == 1])</code></pre>
+<pre><code>&gt; 
+&gt;   Lilliefors (Kolmogorov-Smirnov) normality test
+&gt; 
+&gt; data:  study.data$INCOME[study.data$HasCollege == 1]
+&gt; D = 0.09, p-value = 0.001</code></pre>
+<pre class="r"><code>shapiro.test(study.data$INCOME[study.data$HasCollege == 0])</code></pre>
+<pre><code>&gt; 
+&gt;   Shapiro-Wilk normality test
+&gt; 
+&gt; data:  study.data$INCOME[study.data$HasCollege == 0]
+&gt; W = 0.9, p-value = 0.0000000002</code></pre>
+<pre class="r"><code>shapiro.test(study.data$INCOME[study.data$HasCollege == 1])</code></pre>
+<pre><code>&gt; 
+&gt;   Shapiro-Wilk normality test
+&gt; 
+&gt; data:  study.data$INCOME[study.data$HasCollege == 1]
+&gt; W = 0.9, p-value = 0.000001</code></pre>
+<p>In this case, formal statistical tests all indicate that we should
+reject the null hypothesis that the data are Normally distributed.</p>
+<p>Overall, because the Central Limit Theorem is so strong, the t-test
+is fairly robust to this assumption. Even when the data are not really
+Normal, the uncertainty around the sample mean will be Normally
+distributed when there is sufficient sample size. While you should be
+aware of what the shape of the distributions are and how that may affect
+the t-test, you can still use it on remarkably not Normal data.
+Ultimately, I do not recommend using formal statistical tests to
+evaluate Normality of the data.</p>
+<p>Based on the histogram with Normal overlay and the Q-Q plots, I would
+deem this data (with about 200 observations in each group) to be
+sufficiently Normal to use a t-test. However, I would also consider
+using a non-parametric test (such as the Mann-Whitney U test) to
+validate any conclusions.</p>
+<p>One concern when working with right skewed data is that the extreme
+values in the tail have undue influence on the average. In this case,
+the No College data are more skewed and this may pull the average income
+higher. Ultimately, the mean may not be a relevant representation of
+income in this group. In that case, again, I would lean on a
+non-parametric test, either the Kolmogorov-Smirnov test, Mann-Whitney U
+test, or the Medians test depending on what the motivation behind the
+research question is.</p>
+</div>
+</div>
+<div id="step-5.-consider-assumption-4" class="section level4">
+<h4>Step 5. Consider assumption 4</h4>
+<p>The F test is a statistical tests to compare variances between two
+independent samples.</p>
+<p>In general, when the the sample standard deviation is not quite
+close, it is conservative to use Welsh’s t-test which includes a
+correction proportional to the difference in variance between groups.
+(As in, if there is no difference, no correction is made.)</p>
+<p>Welsh’s t-test is the default in R (seen in the R code as
+<em>var.equal = FALSE</em>).</p>
+<p>In this case, the variances are quite different and that is plain to
+see in the histograms above and in the fact that one standard deviation
+is more than 50% larger than the other.</p>
+<pre class="r"><code># Calculate the group average income, sd of income, se, and 95% CI
+income.byCollege &lt;- t(aggregate(study.data$INCOME ~ study.data$HasCollege, 
+                          FUN=function(x) {
+                              c(avg = mean(x), 
+                                n = length(x), 
+                                var = var(x),  
+                                sd = sd(x), 
+                                se = sd(x)/sqrt(length(x)),
+                                lower95 = mean(x) + qnorm(0.025)*sd(x)/sqrt(length(x)), 
+                                upper95 = mean(x) + qnorm(0.975)*sd(x)/sqrt(length(x))
+                                )
+                          }
+              ))
+
+income.byCollege</code></pre>
+<pre><code>&gt;                                [,1]       [,2]
+&gt; study.data$HasCollege             0          1
+&gt; study.data$INCOME.avg         31221      55151
+&gt; study.data$INCOME.n             224        176
+&gt; study.data$INCOME.var     497270750 1189858919
+&gt; study.data$INCOME.sd          22300      34494
+&gt; study.data$INCOME.se           1490       2600
+&gt; study.data$INCOME.lower95     28301      50055
+&gt; study.data$INCOME.upper95     34141      60247</code></pre>
+</div>
+<div id="step-6.-perform-t-test" class="section level4">
+<h4>Step 6. Perform t-test</h4>
+<p>Now that we have decided that a Welsh’s independent sample t test is
+reasonably appropriate, we can run our t test and interpret the
+findings.</p>
+<pre class="r"><code># Two-sample, two-sided, t-test
+# For transparency, I list two of the default settings in the specification of the test.
+
+# H0: Families with and without children have the same average income
+t.test(study.data$INCOME ~ study.data$HasCollege,   
+       var.equal = FALSE,           # Default setting: not required to specify
+       alternative = &quot;two.sided&quot;)   # Default setting: not required to specify</code></pre>
+<pre><code>&gt; 
+&gt;   Welch Two Sample t-test
+&gt; 
+&gt; data:  study.data$INCOME by study.data$HasCollege
+&gt; t = -8, df = 285, p-value = 0.00000000000003
+&gt; alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+&gt; 95 percent confidence interval:
+&gt;  -29829 -18031
+&gt; sample estimates:
+&gt; mean in group 0 mean in group 1 
+&gt;           31221           55151</code></pre>
+</div>
+<div id="step-7.-interpret-the-results" class="section level4">
+<h4>Step 7. Interpret the results</h4>
+<p>We observe a p-value of 0.00000000000003485. Therefore, we reject the
+null hypothesis that the average income is the same for families with
+and without some college.</p>
+<p>In addition, the report provides the 95% confidence interval for the
+difference as $18,031 to $29,828.</p>
+<p>Next: Mann-Whitney U Test</p>
+<p>If there are too few data to evaluate whether the assumptions of a
+t-test hold or if there is enough data and the parametric assumption of
+Normal distribution does not hold, then often the best alternative for
+comparing two samples is the Mann-Whitney U test.</p>
+</div>
+</div>
+</div>
+
+<!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

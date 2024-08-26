@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Analysis of Variance (ANOVA) and Kruskal-Wallis Test</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="laurens_styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      -->
+      <a class="navbar-brand" href="index.html">Lauren's Awesome Textbook</a>
+    </div>
+  <!--/.nav-collapse
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Datasets-Home.html">Datasets</a></li>
+        <li><a href="Intro-To-Coding-R.html">Intro to Coding and R</a></li>
+      </ul>
+    </div>/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Analysis of Variance (ANOVA) and
+Kruskal-Wallis Test</h1>
+
+</div>
+
+
+<p>Learning objectives of this asynchronous lesson:</p>
+<ul>
+<li>Understanding when to use ANOVA</li>
+<li>Evaluate whether the underlying assumptions of ANOVA are
+present</li>
+<li>Write an appropriate null hypothesis, apply test appropriately, and
+interpret the p-value</li>
+<li>Use appropriate non-parametric alterantive to ANOVA, Kruskal-Wallis,
+when the assumptions for ANOVA are not present</li>
+</ul>
+<div id="data-set" class="section level2">
+<h2>Data set</h2>
+<p>For this set of examples, I will continue to use the sample
+Cyberville families data created in the t-test page.</p>
+<pre class="r"><code>data &lt;- read.table(url(&quot;https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt&quot;), 
+                        header = TRUE)
+
+## suppress scientific notation for ease of reading numbers
+options(scipen=99)  </code></pre>
+<p>Using the same set.seed, I can take the exact same random sample from
+the population. So that I have them for later, I am going to make the
+variables for HasChildren and HasCollege.</p>
+<pre class="r"><code># Using the same random number seed, I will get the same sample from the population dataset
+set.seed(11)  
+
+# create the random sample dataset for analysis
+n &lt;- 400   # sample size
+select.obs &lt;- sample(1:nrow(data), n) 
+study.data &lt;- data[select.obs, ]    </code></pre>
+<div id="creating-and-labelling-categorical-variables"
+class="section level3">
+<h3>Creating and labelling categorical variables</h3>
+<div id="region" class="section level4">
+<h4>REGION</h4>
+<p>There are several categorical variables in the `families’ dataset
+that we have not worked with before. The variables themselves are coded
+numerically. For example, REGION contains values for 1, 2, 3, and 4.
+This variable cannot be used continuously. The numerical values assigned
+to each region are arbitrary.</p>
+<p>In order to perform useful analysis with this variable, we need to
+tell R that it is categorical. We can do that without labelling the
+categories, or with labelling the categories:</p>
+<pre class="r"><code># Identify REGION as a factor variable without labels
+study.data$REGION &lt;- as.factor(study.data$REGION)
+
+# Identify REGION as a factor variable with labels
+study.data$REGION &lt;- factor(study.data$REGION, 
+                            levels = c(1:4), 
+                            labels =  c(&quot;North&quot;, &quot;East&quot;, &quot;South&quot;, &quot;West&quot;))</code></pre>
+<!---
+#### TYPE
+
+There are three values for family TYPE in the dataset. We can also label these for future use.
+
+
+```r
+# Identify TYPE as a factor variable with labels
+study.data$TYPE <- factor(study.data$TYPE, 
+                            levels = c(1:3), 
+                            labels =  c("Husband-Wife family", 
+                                        "Male-head family", 
+                                        "Female-head family"))
+```
+
+--->
+</div>
+<div id="education" class="section level4">
+<h4>EDUCATION</h4>
+<p>EDUCATION has 16 categories containing a great deal of detail. For
+some analyses, that level of detail may be useful. It is also reasonable
+to collapse the categories into fewer categories. We provide an example
+of how to do that here:</p>
+<pre class="r"><code># Create a categorical variable for EDUCATION
+study.data$Educ_Cat &lt;- NA
+study.data$Educ_Cat[study.data$EDUCATION &lt;= 38] &lt;- 1  # less than HS diploma
+study.data$Educ_Cat[study.data$EDUCATION == 39] &lt;- 2  # HS
+study.data$Educ_Cat[study.data$EDUCATION &gt; 39 &amp; study.data$EDUCATION &lt;= 42] &lt;- 3  # Some college
+study.data$Educ_Cat[study.data$EDUCATION &gt;= 43] &lt;- 4  # University degree
+
+# whenever you create a new variable that is defined from another variable(s), you should double check your coding
+aggregate(study.data$EDUCATION~study.data$Educ_Cat, FUN=function(x) 
+            c(avg = mean(x), 
+              min = min(x), 
+              max = max(x))) </code></pre>
+<pre><code>##   study.data$Educ_Cat study.data$EDUCATION.avg study.data$EDUCATION.min
+## 1                   1                     34.6                     31.0
+## 2                   2                     39.0                     39.0
+## 3                   3                     40.3                     40.0
+## 4                   4                     43.6                     43.0
+##   study.data$EDUCATION.max
+## 1                     38.0
+## 2                     39.0
+## 3                     42.0
+## 4                     46.0</code></pre>
+<pre class="r"><code># Identify Educ_Cat as a factor variable with labels
+study.data$Educ_Cat &lt;- factor(study.data$Educ_Cat, 
+                            levels = c(1:4), 
+                            labels =  c(&quot;lt HS&quot;, &quot;HS&quot;, &quot;College&quot;, &quot;University&quot;))</code></pre>
+</div>
+</div>
+</div>
+<div id="one-way-anova" class="section level2">
+<h2>One-way ANOVA</h2>
+<p>Analysis of variance (ANOVA) test evaluates whether three or more
+groups share a common average.</p>
+<p>Analysis of variance has the same four assumptions as the t-test.</p>
+<ul>
+<li>Outcome is a continuous</li>
+<li>Independent observations: The data need to come from a random sample
+where each observation is independent of other observations</li>
+<li>Normality of the underlying population distributions</li>
+<li>Homogeneity of variance: all groups have the same variance</li>
+</ul>
+<p>When ANOVA is performed on just two groups, it will result in the
+same p-value as a t-test.</p>
+<div id="theory" class="section level3">
+<h3>Theory</h3>
+<p>To develop the theory behind ANOVA, we will use the example question:
+Is the average income different by Education category? We will use the
+new Education categories we just created: less than high school, high
+school diploma, at least some college, and university degree.</p>
+<p>ANOVA decomposes the sources of variability in the data. What part of
+variation is ‘within group’ variation and what part is ‘between group’
+variation. If the within group variation is small compared to the
+variation between groups, then the groups must be meaningfully different
+from each other.</p>
+<p>Lets look at some illustrative data points for Income by Education
+level:</p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div id="overall-variance-in-income" class="section level4">
+<h4>Overall Variance in Income</h4>
+<p>The first thing we can consider, is the overall variance in
+income.</p>
+<p>Overall <em>unbiased</em> variance of income: <span
+class="math display">\[\mathbb{V}(Income) = \frac{1}{N-1} \sum_i^N (y_i
+- \bar{Y})^2 \]</span>.</p>
+<p>The <span class="math inline">\(N-1\)</span> is required to make the
+sample variance unbiased, accommodating losing one degree of freedom
+that occurs from also estimating the sample average.</p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>When calculating the components of variance for ANOVA we will first
+focus on the sum of squares part and drop the <span
+class="math inline">\(\frac{1}{N-1}\)</span> scaling factor. We will
+come back to that later.</p>
+<p>Therefore, we calculate the total sum of squares: <span
+class="math display">\[\mathbb{SS}_T =  \sum_i^N (y_i - \bar{Y})^2
+\]</span></p>
+<p>The question ANOVA seeks to answer is: Is the average sum of squared
+<em>within groups</em> equal to the average sum of squares <em>between
+groups</em>.</p>
+</div>
+<div id="within-group-variance" class="section level4">
+<h4>Within group variance</h4>
+<p>Let’s break down the sum of squared total into the two sources of
+variance.</p>
+<p>So, let’s look at the sum of squared within groups:</p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Sum of squares within groups: <span
+class="math display">\[\mathbb{SS}_W = \sum_j^J \sum_{i \in j}^{} (y_i -
+\bar{y_j})^2 \]</span></p>
+<p>The sum of squares within groups represents the variation of the
+individual points from the average of their own group. If this is small
+relative to the variation of the groups compared to the overall average,
+then the groups must have different averages from each other.</p>
+</div>
+<div id="between-group-variance" class="section level4">
+<h4>Between group variance</h4>
+<p>Lets now look at that sum of squares between groups. For each group,
+we calculate square the difference between the group mean and the
+overall mean. To put this number on the same scale at the sum of squares
+within group, we multiply the value by the sample size for each
+group.</p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Sum of squares between groups: <span
+class="math display">\[\mathbb{SS}_B = \sum_j^J N_j (\bar{y_j} -
+\bar{Y})^2 \]</span></p>
+</div>
+<div id="evaluating-whether-the-groups-are-different-from-each-other"
+class="section level4">
+<h4>Evaluating whether the groups are different from each other</h4>
+<p>If the groups are not different from each other, then the within
+group variation and the between group variation will be very similar or
+equal.</p>
+<p>If the groups are very different from each other, then the within
+group variation will be small and the between group variation will be
+large.</p>
+<p>If you have a null hypothesis where two things are equal, then – as
+we saw with the t-test – you can subtract them and compare the
+difference to 0. In this specific case, that approach would be
+mathematically inconvenient (especially in the 1920s when ANOVA was
+developed by Robert Fisher).</p>
+<p>Another way to evaluate whether two things are equal is to compare
+the ratio of those two things to 1. This turns out to be mathematically
+convenient in this case because the two sum of squares divided by their
+degrees of freedom (scaling them to adjust for sample size) are <span
+class="math inline">\(\chi^2\)</span> distributed. The ratio of two
+<span class="math inline">\(\chi^2\)</span> distributions is called the
+<span class="math inline">\(F\)</span> distribution (named after
+Fisher). Fisher may have chosen this approach because of preliminary
+critical values tables already existed for the <span
+class="math inline">\(F\)</span> distribution as he was also working on
+the F-test, which is a parametric comparison of variances.</p>
+</div>
+<div id="dividing-each-component-by-degrees-of-freedom"
+class="section level4">
+<h4>Dividing each component by degrees of freedom</h4>
+<p>We now calculate the Mean Squared Error within groups and between
+groups by dividing each Sum of Squared value by its degrees of freedom.
+This scales the Sum of Squares calculation by the sample size.</p>
+<p>Mean squared error within groups: <span class="math display">\[MS_W =
+\mathbb{SS}_W / (N - J)\]</span> where <span
+class="math inline">\(N\)</span> is the total number of observations and
+<span class="math inline">\(J\)</span> is the number of groups.</p>
+<p>Mean squared error between groups: <span class="math display">\[MS_B
+= \mathbb{SS}_B / (J - 1)\]</span></p>
+<p>The ratio of these two measures is called the <span
+class="math inline">\(F\)</span> statistic and, under the null
+hypothesis where the ratio is equal to 1, it is F-distributed with <span
+class="math inline">\(N-J\)</span> and <span
+class="math inline">\(J-1\)</span> degrees of freedom.</p>
+<p><span class="math display">\[F = \frac{\mathbb{SS}_B / (J -
+1)}{\mathbb{SS}_W / (N - J)}\]</span> #### Calculating the p-value</p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Recall that the null hypothesis is that all groups have the same
+average.</p>
+<p>When the p-value is more than 0.05, we do not reject the null
+hypothesis. There is not sufficient evidence in the data to declare,
+with 95% confidence, that the groups are different from each other.</p>
+<p>When the p-value is less than 0.05, we reject the null hypothesis.
+This doesn’t tell us whether <em>all</em> the groups are different from
+each other, or if three of four groups are really mostly the same and
+one group is very different. To answer those questions, we could look at
+the bar graph. Or, to be precise, we would need to do pair-wise t-tests.
+However, when doing a large number of two-way comparisons, be mindful of
+using a more stingent p-value cut-off because you are compounding your
+error to do a lot of tests at a 0.05 threshold. (Remember 1 in 20 tests
+will falsely say that two groups are different when they are actually
+the same!)</p>
+</div>
+</div>
+</div>
+<div id="built-in-r-function" class="section level2">
+<h2>Built in R Function</h2>
+<p>There are several approaches to doing an ANOVA in R.</p>
+<pre class="r"><code>## Method 1. 
+anova(lm(study.data$INCOME ~ study.data$Educ_Cat))</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: study.data$INCOME
+##                      Df       Sum Sq     Mean Sq F value              Pr(&gt;F)
+## study.data$Educ_Cat   3  93339883554 31113294518    43.7 &lt;0.0000000000000002
+## Residuals           396 282216861883   712668843                            
+##                        
+## study.data$Educ_Cat ***
+## Residuals              
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>## Method 2. 
+summary(aov(study.data$INCOME ~ study.data$Educ_Cat))</code></pre>
+<pre><code>##                      Df       Sum Sq     Mean Sq F value              Pr(&gt;F)
+## study.data$Educ_Cat   3  93339883554 31113294518    43.7 &lt;0.0000000000000002
+## Residuals           396 282216861883   712668843                            
+##                        
+## study.data$Educ_Cat ***
+## Residuals              
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="step-by-step-anova" class="section level2">
+<h2>Step-by-Step ANOVA</h2>
+<div id="assumptions-of-anova" class="section level3">
+<h3>Assumptions of ANOVA</h3>
+<p>There are four key assumptions of ANOVA</p>
+<ul>
+<li>Outcome is a continuous measure</li>
+<li>Independent observations: The data need to come from a random sample
+where each observation is independent of other observations</li>
+<li>Normality of the underlying population distributions</li>
+<li>Homogeneity of variance: all groups have the same variance</li>
+</ul>
+<p>An ANOVA is quite robust against violations of the normality
+assumption. Violations of the homogeneity of variances assumption can be
+impactful, especially when sample sizes are unequal between conditions.
+When assumptions are not satisfied, Kruskall-Wallis is a non-parametric
+alternative.</p>
+</div>
+<div id="step-by-step-instructions" class="section level3">
+<h3>Step-by-step instructions</h3>
+<p>Lets walk though all the steps of ANOVA for a second example.</p>
+<p>Consider the question: Does income vary by region?</p>
+<div id="step-1.-identify-the-null-and-alternative-hypothesis"
+class="section level4">
+<h4>Step 1. Identify the null and alternative hypothesis</h4>
+<ul>
+<li><p>H0: Average income is <em>equal</em> across all regions</p></li>
+<li><p>HA: Average income is <em>not equal</em> across all
+regions</p></li>
+</ul>
+</div>
+<div id="step-2.-confirm-assumption-1" class="section level4">
+<h4>Step 2. Confirm assumption 1</h4>
+<ul>
+<li>Income is a continuous variable</li>
+</ul>
+</div>
+<div id="step-3.-confirm-assumption-2" class="section level4">
+<h4>Step 3. Confirm assumption 2</h4>
+<ul>
+<li><p>This assumption requires understanding how the data were
+collected.</p></li>
+<li><p>Our data are a random sample of the whole population so any
+relationships between households would be randomly occurring within the
+data. Therefore, the observations are independent.</p></li>
+</ul>
+</div>
+<div id="step-4.-consider-assumption-3" class="section level4">
+<h4>Step 4. Consider assumption 3</h4>
+<p>We will use histograms and QQ plots to evaluate the Normality of the
+data.</p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>Observations: South and West region look least Normally distributed
+in both the histograms and the QQ plots. This, at best, weakly satisfies
+the Normal assumption because ANOVA is quite tolerant to violations in
+this assumption.</p>
+<p>However, in the histograms, it also appears like the standard
+deviations are very different across groups as I move into checking
+assumption 4.</p>
+</div>
+<div id="step-5.-consider-assumption-4" class="section level4">
+<h4>Step 5. Consider assumption 4</h4>
+<p>There are three ways to check the constant variance assumption.</p>
+<ul>
+<li>Calculate the descriptive statistics for each group. This is a best
+practice before performing any statistical comparisons of groups, so we
+will definitely do that.<br />
+</li>
+<li>Visualize the distributions using a box plot which emphsizes the
+25th and 75th percentiles of each group.<br />
+</li>
+<li>Levene’s Test for Equality of Variances. While formal testing for
+homogeneity of variances is discouraged for t-test to avoid compounding
+errors, ANOVA is so sensitive to violations of this assumption, it is a
+best practice.</li>
+</ul>
+</div>
+<div id="descriptive-statistics" class="section level4">
+<h4>Descriptive statistics</h4>
+<pre class="r"><code>income.summary &lt;- aggregate(study.data$INCOME ~ study.data$REGION, 
+                          FUN=function(x) {
+                              c(
+                                avg = mean(x), 
+                                n = length(x), 
+                                var = var(x),  
+                                sd = sd(x), 
+                                se = sd(x)/sqrt(length(x)),
+                                lower95 = mean(x) + qnorm(0.025)*sd(x)/sqrt(length(x)), 
+                                upper95 = mean(x) + qnorm(0.975)*sd(x)/sqrt(length(x))
+                                )
+                          }
+              )
+
+# aggregate tends to make difficult to use objects
+# Convert the resulting array into a data frame with appropriate columns
+income.summary &lt;- do.call(data.frame, income.summary)
+names(income.summary) &lt;- c(&quot;Region&quot;, &quot;avg&quot;, &quot;n&quot;, &quot;var&quot;, &quot;sd&quot;, &quot;se&quot;, &quot;lower95&quot;, &quot;upper95&quot;)
+
+# print the table
+income.summary</code></pre>
+<pre><code>##   Region   avg   n        var    sd   se lower95 upper95
+## 1  North 48174  91 1035532470 32180 3373   41562   54786
+## 2   East 40082 107  597591741 24446 2363   35450   44713
+## 3  South 41390 122 1128104667 33587 3041   35430   47350
+## 4   West 37224  80  972227879 31181 3486   30392   44057</code></pre>
+</div>
+<div id="boxplot" class="section level4">
+<h4>BoxPlot</h4>
+<pre class="r"><code># Boxplot 
+boxplot(study.data$INCOME ~ study.data$REGION,
+        ylim = c(0, 200000), 
+        las = 1,
+        ylab = &quot;&quot;,
+        main = &quot;Box plot of income, by Region&quot;,
+        xlab = &quot;Region&quot;)</code></pre>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>There are some differences in the width of the interquartile range
+(indicated by the whiskers in the boxplot) and in the standard
+deviations (lowest at 24K and highest at 33K), but overall I would
+consider this all acceptable for continuing with ANOVA.</p>
+</div>
+<div id="levenes-test-for-equality-of-variances" class="section level4">
+<h4>Levene’s Test for Equality of Variances</h4>
+<p>Levene’s Test evaluates the null hypothesis that the three or more
+samples come from a population with the same variance. Any differences
+observed in the sample variances would have only occurred by chance,
+because sampling introduces randomness.</p>
+<p>Levene’s Test test has two assumptions</p>
+<ul>
+<li>Outcome is a continuous</li>
+<li>Independent observations: The data need to come from a random sample
+where each observation is independent of other observations</li>
+</ul>
+<pre class="r"><code>##  Levene&#39;s test for Equality of Variances
+##  H0: All the samples come from a population with the same variance
+
+leveneTest(study.data$INCOME ~ study.data$REGION)</code></pre>
+<pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = median)
+##        Df F value Pr(&gt;F)
+## group   3    1.38   0.25
+##       396</code></pre>
+<p>We observe a p-value of 0.25 indicating that we cannot reject the
+null hypothesis that the samples share a common variance. As such, we
+have satisfied Assumption 4 (homogeneity of variances).</p>
+<p>Combining all the information in our assessments, there is a risk of
+the combination of poor fit to Normal distribution, heteroskedasticity,
+and the imbalance in sample size (which aggravates the differences in
+variance) increasing the risk of a false finding. I am particularly
+worried that the distributions are not Normal enough for ANOVA. So, to
+reassure myself, I will also do a Kruskall-Wallis test.</p>
+</div>
+<div id="step-6.-perform-anova" class="section level4">
+<h4>Step 6. Perform ANOVA</h4>
+<p>Now that we have decided that ANOVA is reasonably appropriate, we can
+run the test and interpret the findings.</p>
+<pre class="r"><code># H0: Families have the same average income across regions
+anova(lm(study.data$INCOME ~ study.data$REGION))</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: study.data$INCOME
+##                    Df       Sum Sq    Mean Sq F value Pr(&gt;F)
+## study.data$REGION   3   5707431351 1902477117    2.04   0.11
+## Residuals         396 369849314086  933962914</code></pre>
+</div>
+<div id="step-7.-interpret-and-present-the-results"
+class="section level4">
+<h4>Step 7. Interpret and present the results</h4>
+<p>We observe a p-value of 0.1083 Therefore, we do not reject the null
+hypothesis that the average income is the same across regions. ’ This
+study does not provide sufficient evidence that the regions have
+different incomes.</p>
+<p>Presenting the results in a bar graph with error bars is a
+traditional way of presenting means across groups.</p>
+<pre class="r"><code># Draw a bar graph
+par(mgp = c(3, 0.6, 0)) # Adjusting the distance of the y-axis labels from the axis
+barplot_obj &lt;- barplot(income.summary$avg,
+                         main = &quot;Average Income of Families, by Region&quot;,
+                         ylab = &quot;Average Income ($)&quot;,
+                         names.arg = income.summary$Region,
+                         ylim = c(0, 60000),      # sets the bounds on the y-axis
+                         las = 1 )                # orients the y-axis labels to read horizontally)
+
+# Add error bars
+arrows(x0 = barplot_obj, y0 = income.summary$upper95,      # position of the upper end of bars
+       x1 = barplot_obj, y1 = income.summary$lower95,       # position of the lower end of bars
+       angle = 90, code = 3, length = 0.1)                                        # features of the error bars</code></pre>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="kruskall-wallis-test" class="section level2">
+<h2>Kruskall-Wallis Test</h2>
+<p>The Kruskall-Wallis test is a generalized Mann-Whitney U Test and
+provides a non-parametric alternative to ANOVA.<br />
+As such, the Kruskall-Wallis compares the distributions of three or more
+groups answering the question: Do all these groups come from the same
+population distribution? The null hypothesis is that all of the groups
+were sampled from the same population distribution.</p>
+<p>The Kruskall-Wallis test only has two assumptions</p>
+<ul>
+<li>Outcome is a continuous, ordinal, or rank measure (Cannot be binary
+or un-ordered categorical)<br />
+</li>
+<li>Independent observations: The data need to come from a random sample
+where each observation is independent of other observations</li>
+</ul>
+<div id="example-1." class="section level3">
+<h3>Example 1.</h3>
+<p>Let’s continue with the question: Is the average income the same
+across all regions of the city?</p>
+<p>Above, we evaluated each of the assumptions of ANOVA finding that the
+data weakly satisfied the Normal distribution assumption, weakly
+satisfied the homogeneity of variances assumption, and because of the
+imbalance in sample sizes across the groups (which aggravates the
+differences in variance), we worried about increasing the risk of a
+false finding.</p>
+<p>Therefore, we now consider the robust non-parametric alternative to
+ANOVA.</p>
+<pre class="r"><code># H0:  All groups come from the same distribution
+kruskal.test(study.data$INCOME ~ study.data$REGION)</code></pre>
+<pre><code>## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  study.data$INCOME by study.data$REGION
+## Kruskal-Wallis chi-squared = 9, df = 3, p-value = 0.02</code></pre>
+<p>We observe a p-value of 0.02. Therefore, we reject the null
+hypothesis that the average income is the same across regions. ’</p>
+<p>This finding contradicts our previous finding using ANOVA. When an
+appropriate non-parametric test rejects the null hypothesis and a
+parametric test does not, you can trust the result of the non-parametric
+test. The contradiction was likely because we did not sufficiently
+satisfy the Normality assumption.</p>
+<!---
+## Two-way ANOVA
+
+Two-way ANOVA compares the means across groups varying two factors (vs. one factor in one-way ANOVA).
+--->
+<p>Next: Fisher’s Exact and Chi-Squared Tests</p>
+</div>
+</div>
+
+<!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

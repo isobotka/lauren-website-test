@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Central Limit Theorem</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="laurens_styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      -->
+      <a class="navbar-brand" href="index.html">Lauren's Awesome Textbook</a>
+    </div>
+  <!--/.nav-collapse
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Datasets-Home.html">Datasets</a></li>
+        <li><a href="Intro-To-Coding-R.html">Intro to Coding and R</a></li>
+      </ul>
+    </div>/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Central Limit Theorem</h1>
+
+</div>
+
+
+<p>Learning objectives of this asynchronous lesson:</p>
+<ul>
+<li>Recognize that estimates derived from samples may not precisely
+reflect the true population parameter<br />
+</li>
+<li>Understand how to apply the Central Limit Theorem to characterize
+the uncertainty from a sample based estimate</li>
+<li>Calculate the 95% confidence interval for a sample average using
+Normal approximation</li>
+</ul>
+<div id="dataset" class="section level2">
+<h2>Dataset</h2>
+<p>For this set of examples, I will use the Cyberville families data.
+Recall that this is a population dataset …</p>
+<pre class="r"><code>data &lt;- read.table(url(&quot;https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt&quot;), 
+                        header = TRUE)
+
+## suppress scientific notation for ease of reading numbers
+options(scipen=99) </code></pre>
+</div>
+<div id="population-statistics" class="section level2">
+<h2>Population statistics</h2>
+<p>Usually we can’t know the population statistics. But, because this
+dataset is a complete census of the Cyberville city, we can calculate
+the population average and population standard deviation.</p>
+<p>We can use these measures to compare to the results we obtain from
+our sampling studies.</p>
+<pre class="r"><code># Calculate the true population mean of Income
+true.avg &lt;- mean(data$INCOME)
+
+# Calculate the true population standard deviation of Income
+true.sd &lt;- sd(data$INCOME)
+
+print(cbind(true.avg, true.sd))</code></pre>
+<pre><code>&gt;      true.avg  true.sd
+&gt; [1,] 41335.51 32037.62</code></pre>
+<div id="population-distribution" class="section level3">
+<h3>Population distribution</h3>
+<p>Note, that the actual population distribution of income is not
+normally distributed. It is right or positively skewed.</p>
+<pre class="r"><code># Histogram of population income
+hist(data$INCOME, 
+     breaks = 40,
+     xlab = &quot;Income&quot;,
+     main = &quot;Histogram of Population Income&quot;,
+     las = 1 )  # orients the y-axis labels to read horizontally
+
+abline(v=true.avg,   # draw a line at the population mean
+       col = &quot;blue&quot;, 
+       lwd = 2,   # lwd is the line width
+       lty = 2)   # lty is dashed
+
+text(x = true.avg + 5000, 
+     y = 6000, 
+     adj = 0,    # positions the text box to the left of the coordinates
+     labels = paste0(&quot;Population average income = $&quot;, format(true.avg, nsmall = 2)), 
+     col = &quot;blue&quot;, 
+     cex = 0.85)     # cex is font size</code></pre>
+<p><img src="03b-CLT_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+</div>
+<div id="performing-a-study" class="section level2">
+<h2>Performing a study</h2>
+<p>If a researcher wanted to know about the population about Cyberville,
+performing a census would be expensive and and inefficient. It is also
+possible that it would be very difficult to actually achieve a complete
+census and the people who are most difficult to collect information from
+may have similar features For example, it is very difficult to capture
+homeless individuals in population census. If the census systematically
+misses a segment of the population, the census estimates will not
+represent true population statistics.</p>
+<p>When conducting a sample, researchers spend time and effort sampling
+hard-to-reach demographics to ensure that they are correctly represented
+in the sample. When that is done, a sample average can be more accurate
+that a costly census estimate of the average.</p>
+<p>However, a sample estimate will have uncertainty. One of the benefits
+of probability-based sampling methods is that the uncertainty can be
+characterized and quantified.</p>
+<p>Probability-based sampling methods include</p>
+<ul>
+<li>(simple) random sampling<br />
+</li>
+<li>systematic sampling<br />
+</li>
+<li>stratified random sampling<br />
+</li>
+<li>cluster sampling</li>
+</ul>
+<p>Many large population based studies and political polls use
+stratified random sampling. Challenges to stratified random sampling are
+discussed in several good articles about political polling in the 2016
+US Election:</p>
+<ul>
+<li><a
+href="https://fivethirtyeight.com/features/what-pollsters-have-changed-since-2016-and-what-still-worries-them-about-2020/">What
+Pollsters have changed since 2016 - and what still worries them about
+2020</a></li>
+<li><a
+href="https://www.nytimes.com/2024/08/06/opinion/harris-trump-vance-polls.html">What
+the Polls say about Harris that the Trump team doesn’t like</a></li>
+</ul>
+<p>For today’s lesson, we will implement the simplest of these methods
+<em>simple random sampling</em>.</p>
+<div id="generate-a-sample" class="section level3">
+<h3>Generate a sample</h3>
+<p>We will randomly sample 400 people for our study estimating average
+income.</p>
+<pre class="r"><code>n &lt;- 400   # sample size
+select.obs &lt;- sample(1:nrow(data), n)  # from a list of numbers (1, 2, 3, ... ), select n of them at random
+# from the original data frame, name a new dataset only keeping the observations in the sample
+study.data &lt;- data[select.obs, ]    </code></pre>
+</div>
+<div id="calculating-sample-statistics" class="section level3">
+<h3>Calculating sample statistics</h3>
+<p>With the sample data, we can calculate the average and standard
+deviation of the sample.</p>
+<pre class="r"><code># Calculate the sample mean of Income
+sample.avg &lt;- mean(study.data$INCOME)
+sample.avg</code></pre>
+<pre><code>&gt; [1] 41767.11</code></pre>
+<pre class="r"><code># Calculate the sample sd of Income
+sample.sd &lt;- sd(study.data$INCOME)
+sample.sd</code></pre>
+<pre><code>&gt; [1] 34366.29</code></pre>
+<p>If you run the last two sections of code repeatedly, you will find
+that each time a new sample is selected the sample mean is a different
+number.</p>
+<p>Of course, as a researcher, you would only ever see the one sample
+you actually get. But, we can explore the randomness of sampling by
+running a simulation in which we can repeat the study many times by
+taking different samples from the available population data in this
+case.</p>
+<p>Let’s pretend to be able to do the study in which we randomly sample
+400 people 5000 times.</p>
+<pre class="r"><code>M &lt;- 5000  # number of times we will simulate running the study
+n &lt;- 400   # sample size
+
+# initialize an empty vector to store the outcome of the study
+sample.reps &lt;- data.frame(avg = rep(NA, length = M), sd = rep(NA, length = M))
+
+# using a loop, run the study many time, recording the average income each time
+for (m in c(1:M)){
+  # from the data frame &quot;data&quot; randomly sample n observations, making a new dataset &quot;study.data&quot;
+  select.obs &lt;- sample(1:nrow(data), n)
+  study.data &lt;- data[select.obs, ]   
+  
+  # Calculate the sample mean of Income
+  sample.reps$avg[m] &lt;- mean(study.data$INCOME)
+  sample.reps$sd[m] &lt;- sd(study.data$INCOME)
+}</code></pre>
+<div id="distribution-of-the-sample-means" class="section level5">
+<h5>Distribution of the sample means</h5>
+<p>To visualize the distribution of the outcomes from simulating the
+sampling 1000 times, we can present a histogram of the sample mean and
+then draw a line where we know the actual population mean is.</p>
+<pre class="r"><code># draw a histogram of the sample average income
+hist(sample.reps$avg,
+     breaks = 20,
+     xlab = &quot;Average Income of the Sample&quot;,
+     main = &quot;Histogram of the Sample Average Income across 5000 samples&quot;,
+     ylim = c(0, 800),
+     las = 1 )  # orients the y-axis labels to read horizontally
+
+abline(v=true.avg,   # draw a line at the population mean
+       col = &quot;blue&quot;, 
+       lwd = 2,   # lwd is the line width
+       lty = 2)   # lty is dashed
+
+text(x = true.avg + 250, 
+     y = 750, 
+     adj = 0,    # positions the text box to the left of the coordinates
+     labels = paste0(&quot;Population average income = $&quot;, format(true.avg, nsmall = 2)), 
+     col = &quot;blue&quot;, 
+     cex = 0.85)     # cex is font size</code></pre>
+<p><img src="03b-CLT_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>This looks so Normally distributed!! Let’s overlay a Normal
+distribution on this graph to visualize how well it fits.</p>
+<p><img src="03b-CLT_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>So, even though the underlying population distribution was not
+Normally distributed, the uncertainty in the sample average for income
+<em>is</em> Normally distributed.</p>
+</div>
+</div>
+</div>
+<div id="central-limit-theorem" class="section level2">
+<h2>Central Limit Theorem</h2>
+<p>The Central Limit Theorem is the formal mathematical statement of
+what you have just observed.</p>
+<p>The CLT states that the distribution of uncertainty around the sample
+mean converges to the Normal distribution where the mean of the
+distribution is the sample mean and the standard deviation is the
+<em>standard error</em>.</p>
+<p>The standard error is the special name given to the standard
+deviation representing the sampling uncertainty of an estimate. The
+calculation of the standard error requires knowing the <em>population
+standard deviation</em>. It is a special case when you don’t know the
+population average but you do know the population standard deviation.
+And, so, it is common to use the sample standard deviation as the best
+estimate of the population standard deviation.</p>
+<p><span class="math display">\[
+\text{SE} = \frac{SD}{\sqrt{n}}
+\]</span></p>
+<p>Because the sample standard deviation is also an uncertain estimate,
+this increases uncertainty in the mean <em>and</em> changes the Normal
+distribution to a t distribution. When the sample size is relatively
+small (&lt; 30 observations), this matters and you should be careful to
+use the t distribution. Generally, the Normal distribution is
+appropriate and reasonable to use directly.</p>
+<p>The distribution converges to Normal faster when</p>
+<ul>
+<li>the underlying distribution is Normal<br />
+</li>
+<li>the underlying distribution has smaller (vs. larger) variance<br />
+</li>
+<li>the underlying distribution doesn’t have “fat tails”<br />
+</li>
+<li>the underlying distribution is symmetrical (i.e., isn’t too
+skewed)</li>
+<li>the size of the sample increases</li>
+</ul>
+<p>Because of the Central Limit Theorem, estimating 95% confidence
+intervals around a sample average using the Normal distribution is both
+common and highly accurate when compared to exact or bootstrapped
+intervals.</p>
+</div>
+<div id="uncertainty-around-a-sample-mean" class="section level2">
+<h2>Uncertainty around a sample mean</h2>
+<p>The Central Limit Theorem tells us that that the uncertainty from
+sampling is Normally distributed around the sample mean where the
+standard deviation is the standard error.</p>
+<p>Now, relying on the Normal distribution, we can calculate the 95%
+confidence interval for that first sample of 400.</p>
+<pre class="r"><code># Recall our sample data was &#39;study.data&#39;
+
+# Calculate the sample mean of Income
+sample.avg &lt;- mean(study.data$INCOME)
+
+# Calculate the sample sd of Income
+sample.sd &lt;- sd(study.data$INCOME)
+
+# Calculate the standard error for the study where n = 400
+se &lt;- sample.sd / sqrt(n)
+
+# Use the se and the Normal distribution to calculate the 95% CI
+lowerCI = sample.avg + qnorm(0.025, mean = 0, sd = 1) * se
+upperCI = sample.avg + qnorm(0.975, mean = 0, sd = 1) * se
+
+print(cbind(sample.avg, lowerCI, upperCI))</code></pre>
+<pre><code>&gt;      sample.avg  lowerCI  upperCI
+&gt; [1,]   39557.78 36601.42 42514.13</code></pre>
+</div>
+<div id="interpreting-confidence-intervals" class="section level2">
+<h2>Interpreting confidence intervals</h2>
+<p>In plain language, there is a 95% chance that the true population
+mean is within the 95% confidence interval.</p>
+<p>Looking back on our 5000 replications of the single study, we can see
+that this is true.</p>
+<p>Specifically, we can identify how many of our 5000 studies were
+randomly such terrible samples that the 95% confidence interval did not
+contain the true population mean.</p>
+<pre class="r"><code># Recall our dataframe from above holding the sample average and sample standard deviation from the 5000 replications
+
+# We now add columns in which we will calculate the standard error and the lower and upper 95% CI
+sample.reps$se &lt;- sample.reps$sd / sqrt(n)
+sample.reps$lowerCI &lt;- sample.reps$avg + qnorm(0.025, mean = 0, sd = 1) * sample.reps$se
+sample.reps$upperCI &lt;- sample.reps$avg + qnorm(0.975, mean = 0, sd = 1) * sample.reps$se
+
+# Next we will add a column to report whether the true population mean is *lower* than the lower CI or the true population mean is *higher* than the upper CI
+
+sample.reps$outBounds &lt;- 0   # initialize the column
+sample.reps$outBounds[ true.avg &lt; sample.reps$lowerCI ] &lt;- 1
+sample.reps$outBounds[ true.avg &gt; sample.reps$upperCI ] &lt;- 1
+
+# what % of study replications reported 95% CI that did not include the true population average?
+sum(sample.reps$outBounds)/m</code></pre>
+<pre><code>&gt; [1] 0.0508</code></pre>
+<p>I hope it is not too much of a surprise that this is really close to
+5%!</p>
+<p>Next: Elements of a Statistical Test</p>
+</div>
+
+<!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

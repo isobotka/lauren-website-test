@@ -11,7 +11,7 @@
 
 
 
-<title>Homepage of Lauren’s Textbook</title>
+<title>Homepage and TOC</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -29,6 +29,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -220,6 +223,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -229,25 +295,37 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background -->
+      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+      -->
       <a class="navbar-brand" href="index.html">Lauren's Awesome Textbook</a>
     </div>
+  <!--/.nav-collapse
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><a href="index.html">Home</a></li>
         <li><a href="Datasets-Home.html">Datasets</a></li>
         <li><a href="Intro-To-Coding-R.html">Intro to Coding and R</a></li>
       </ul>
-    </div><!--/.nav-collapse -->
+    </div>/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -255,18 +333,232 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Homepage of Lauren’s Textbook</h1>
+<h1 class="title toc-ignore">Homepage and TOC</h1>
 
 </div>
 
 
 <hr />
 <hr />
-<p>Click the hamburger menu or a link above!</p>
+<div id="lessons" class="section level2">
+<h2>Lessons</h2>
+<div id="intro-to-coding-and-r" class="section level3">
+<h3>01 Intro to Coding and R</h3>
+<ul>
+<li><a href="Intro-To-Coding-R.html">Webpage</a></li>
+</ul>
+</div>
+<div id="graphing-in-r" class="section level3">
+<h3>02 Graphing in R</h3>
+<ul>
+<li><a href="Graphing-In-R.html">Webpage</a></li>
+</ul>
+</div>
+<div id="clt" class="section level3">
+<h3>03 CLT</h3>
+<ul>
+<li><a href="03b-CLT.html">Webpage</a></li>
+</ul>
+</div>
+<div id="a-binomial-test" class="section level3">
+<h3>04a Binomial Test</h3>
+<ul>
+<li><a href="04a-Binomial-Test.html">Webpage</a></li>
+</ul>
+</div>
+<div id="b-t-test" class="section level3">
+<h3>04b T Test</h3>
+<ul>
+<li><a href="04b-T-Test.html">Webpage</a></li>
+</ul>
+</div>
+<div id="c-wmw-u" class="section level3">
+<h3>04c WMW-U</h3>
+<ul>
+<li><a href="04c-WMW-U.html">Webpage</a></li>
+</ul>
+</div>
+<div id="d-anova" class="section level3">
+<h3>04d ANOVA</h3>
+<ul>
+<li><a href="04d-ANOVA.html">Webpage</a></li>
+</ul>
+</div>
+</div>
+<div id="datasets" class="section level2">
+<h2>Datasets</h2>
+<p><a href="Datasets-Home.html">Datasets Home Page</a></p>
+<div id="cyberville-families" class="section level3">
+<h3>Cyberville Families</h3>
+<ul>
+<li><a href="Cyberville-Description.html">Data dictionary</a><br />
+</li>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.csv">CSV</a></li>
+</ul>
+</div>
+<div id="meps-data" class="section level3">
+<h3>MEPS data</h3>
+<ul>
+<li><a href="MEPS-Description.html">Data dictionary</a><br />
+</li>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/mepsData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/mepsData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="occupational-prestige-data" class="section level3">
+<h3>Occupational Prestige data</h3>
+<ul>
+<li>Data dictionary<br />
+</li>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PrestigeData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PrestigeData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="roulette-wheel" class="section level3">
+<h3>Roulette Wheel</h3>
+<ul>
+<li>Exhibit 1: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/RouletteData_Ex1.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/RouletteData_Ex1.csv">CSV</a></li>
+<li>Exhibit 2: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/RouletteData_Ex2.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/RouletteData_Ex2.csv">CSV</a></li>
+</ul>
+</div>
+<div id="pga-golf" class="section level3">
+<h3>PGA Golf</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PGAGolfData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PGAGolfData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="ian-steele" class="section level3">
+<h3>Ian Steele</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/IanSteeleData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/IanSteeleData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="bikeshare" class="section level3">
+<h3>Bikeshare</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/BikeshareData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/BikeshareData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="vungle" class="section level3">
+<h3>Vungle</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/VungleData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/VungleData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="pilgrim-bank" class="section level3">
+<h3>Pilgrim Bank</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PilgrimBankData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/PilgrimBankData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="progressive-insurance" class="section level3">
+<h3>Progressive Insurance</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/ProgressiveInsuranceData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/ProgressiveInsuranceData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="lansink" class="section level3">
+<h3>Lansink</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/LansinkData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/LansinkData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="vanderbilt" class="section level3">
+<h3>Vanderbilt</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/VanderbiltData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/VanderbiltData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="bigeast-bank" class="section level3">
+<h3>BigEast Bank</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/BigEastData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/BigEastData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="pennsylvania-dominion" class="section level3">
+<h3>Pennsylvania Dominion</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/MortgageData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/MortgageData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="happiness" class="section level3">
+<h3>Happiness</h3>
+<ul>
+<li>Dataset: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/GSS_HappyData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/GSS_HappyData.csv">CSV</a></li>
+</ul>
+</div>
+<div id="select-collections" class="section level3">
+<h3>Select Collections</h3>
+<ul>
+<li>Training Data: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TrainData.txt">TXT</a>
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TrainData.csv">CSV</a><br />
+</li>
+<li>Testing Data: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TestData.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TestData.csv">CSV</a><br />
+</li>
+<li>Testing Data Paid Amount: <a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TestPaid.txt">TXT</a>,
+<a
+href="http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/SC_TestPaid.csv">CSV</a></li>
+</ul>
+</div>
+</div>
 
 <!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
 
 
+</div>
+</div>
 
 </div>
 
@@ -299,6 +591,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

@@ -3,8 +3,10 @@ title: "Datasets for Ivey Business Statistics"
 output:
   html_document:
     theme: united
+    toc: true
+    toc_float: true
+css: laurens_styles.css
 ---
-
 ```{r, child="_Global-Options.Rmd"}
 ```
 ***
@@ -35,7 +37,7 @@ Access the CSV file saved onto your computer:
 * Dataset:  [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.csv)
 
 
-### Medical Expenditure Panel Survey data
+### MEPS data
 * [Data dictionary](MEPS-Description.html)  
 * Dataset:  [TXT](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/mepsData.txt), [CSV](http://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/mepsData.csv)
 
